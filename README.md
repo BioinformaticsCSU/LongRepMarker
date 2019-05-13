@@ -50,10 +50,16 @@ Run command line: javac LongRepMarker.java
 
 ### Run LongRepMarker.
 
- [Usage]: java [options] LongRepMarker [main arguments]
- [options]:
- * -Xmx300G : This parameter is only used when working with large data sets.
- [Main arguments]:
+[Usage]:
+
+java [options] LongRepMarker [main arguments]
+
+[options]:
+
+* -Xmx300G : This parameter is only used when working with large data sets.
+
+[Main arguments]:
+ 
  * -K <int>: The k-mer size (37).
  * -m <int>: The minimum size of repeat (1000bp).
  * -q1 <string>: The file with left reads for paired-end library number 1.
