@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 Jianxin Wang(jxwang@mail.csu.edu.cn), Xingyu Liao(liaoxingyu@csu.edu.cn)
-School of Information Science and Engineering
+School of Computer Science and Engineering
 Central South University
 ChangSha
 CHINA, 410083
@@ -42,7 +42,7 @@ When running LongRepMarker from GitHub source the following tools are required:
  
 ### Install LongRepMarker
 
-LongRepMarker is written Java and therefore will require a machine with jdk pre-installed.
+LongRepMarker is written in Java and therefore will require a machine with jdk pre-installed.
 
 Create a main directory (eg:LongRepMarker-master). Copy all source code to this directory.
 
