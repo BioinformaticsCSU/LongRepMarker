@@ -62,7 +62,7 @@ javac LongRepMarker.java
 		 -k   <The k-mer size used during the detection(Default value: 49)>
 		 -E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -t   <The number of threads(Default value: 8)>
-               -m   <The minmum size of repeats(Default value: 5kb)>
+             -m   <The minmum size of repeats(Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
 		 -q2  <The file with right reads for the 1-th paired-end reads>
 		 -q3  <The file with left reads for the 2-th paired-end reads>
