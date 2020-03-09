@@ -130,3 +130,4 @@ javac LongRepMarker.java
     If the value of '-o' is set to '/home/output', the final detection results will be stored in '/home/output'.
 	Otherwise, the detection results will be stored in the default path (.../LongRepMarker-master/FinalRepeatLib/).
 
+
