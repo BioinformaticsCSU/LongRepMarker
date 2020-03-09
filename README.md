@@ -79,6 +79,7 @@ javac LongRepMarker.java
 		 -f   <The reference file used for results evaluation>
 		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
              -o   <The path used to save the final detection results>
+
 	[extremely]
 	
 	If the system prompts "operation not permitted" ,we need to run the following commands to modify the permissions of LongRepMarker-master folder at this time.
