@@ -33,12 +33,12 @@ Installation and operation of LongRepMarker
 
 ### Dependencies
 
-When running LongRepMarker from GitHub source the following tools are required:
+   When running LongRepMarker from GitHub source the following tools are required:
 
-* [jdk 1.8.0 or above]
-* [GNU C++ 4.6.3 or above] 
-* [perl 5.6.0 or above] 
-* [python 2.7.14]
+   * [jdk 1.8.0 or above]
+   * [GNU C++ 4.6.3 or above] 
+   * [perl 5.6.0 or above] 
+   * [python 2.7.14]
  
 ### Install LongRepMarker
 
@@ -48,7 +48,7 @@ When running LongRepMarker from GitHub source the following tools are required:
 
      Running of the following command to compile the LongRepMarker: 
 
-        javac LongRepMarker.java 
+     javac LongRepMarker.java 
 
 ### Run LongRepMarker.
 	
