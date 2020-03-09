@@ -75,7 +75,7 @@ javac LongRepMarker.java
 		 -q10 <The file with right reads for the 5-th paired-end reads>
 		 -l   <The file of 10X linked reads>
 		 -M   <This parameter controls whether the alignment rate of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
-                 -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
+             -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
 		 -f   <The reference file used for results evaluation>
 		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
                  -o   <The path used to save the final detection results>
