@@ -57,8 +57,8 @@ javac LongRepMarker.java
 	
 	[options]
 	
-	     -Xmx256G <This parameter is only used when processing large datasets (For example: the genome size exceeds 5Gb)>
-	     -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
+	         -Xmx256G <This parameter is only used when processing large datasets (For example: the genome size exceeds 5Gb)>
+	         -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
 		 -k   <The k-mer size used during the detection(Default value: 49)>
 		 -E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -t   <The number of threads(Default value: 8)>
@@ -100,7 +100,7 @@ javac LongRepMarker.java
 		
 	(3) When dealing large datasets in de novo mode
 		
-		java -Xmx256G LongRepMarker -q1 [ read1_left.fa ] -q2 [ read1_right.fa ] -q3 [ read2_left.fa ] -q4 [ read2_right.fa ] -l [10X_linked_reads.fa] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options] 
+	    java -Xmx256G LongRepMarker -q1 [ read1_left.fa ] -q2 [ read1_right.fa ] -q3 [ read2_left.fa ] -q4 [ read2_right.fa ] -l [10X_linked_reads.fa] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options] 
 		
 ### Output.
     
