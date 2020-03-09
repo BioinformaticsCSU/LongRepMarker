@@ -62,7 +62,7 @@ javac LongRepMarker.java
 		 -k   <The k-mer size used during the detection(Default value: 49)>
 		 -E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -t   <The number of threads(Default value: 8)>
-         -m   <The minmum size of repeats(Default value: 5kb)>
+                 -m   <The minmum size of repeats(Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
 		 -q2  <The file with right reads for the 1-th paired-end reads>
 		 -q3  <The file with left reads for the 2-th paired-end reads>
@@ -75,10 +75,11 @@ javac LongRepMarker.java
 		 -q10 <The file with right reads for the 5-th paired-end reads>
 		 -l   <The file of 10X linked reads>
 		 -M   <This parameter controls whether the alignment rate of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
-         -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
+                 -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
 		 -f   <The reference file used for results evaluation>
 		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
-         -o   <The path used to save the final detection results>
+                 -o   <The path used to save the final detection results>
+		 
 	[extremely]
 	
 	If the system prompts "operation not permitted" ,we need to run the following commands to modify the permissions of LongRepMarker-master folder at this time.
