@@ -42,13 +42,13 @@ When running LongRepMarker from GitHub source the following tools are required:
  
 ### Install LongRepMarker
 
-LongRepMarker is written Java and therefore will require a machine with jdk pre-installed.
+     LongRepMarker is written Java and therefore will require a machine with jdk pre-installed.
 
-Create a main directory (eg:LongRepMarker). Copy all source code to this directory.
+     Create a main directory (eg:LongRepMarker). Copy all source code to this directory.
 
-Running of the following command to compile the LongRepMarker: 
+     Running of the following command to compile the LongRepMarker: 
 
-javac LongRepMarker.java 
+        javac LongRepMarker.java 
 
 ### Run LongRepMarker.
 	
