@@ -143,7 +143,7 @@ class Threads_VS implements Runnable{
 		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
 		                                        		MultipleFragments_Set.set(g+1,MarkString);
 	                                        		}
-	                                        		else
+	                                        		else if(SplitFragement[9].length()>=20)
 	                                        		{
 	                                        			microInversionRecords+=" "+FragmentsID+" \t\t Micro Inversion \t\t "+SplitFragement[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
 		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
@@ -156,7 +156,7 @@ class Threads_VS implements Runnable{
 		                                           		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
 		                                        		MultipleFragments_Set.set(g+1,MarkString);
 	                                        		}
-	                                        		else
+	                                        		else if(SplitFragement[9].length()>=20)
 	                                        		{
 	                                        			microTranslocationRecords+=" "+FragmentsID+" \t\t Micro Inversion \t\t "+SplitFragement[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
 		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
@@ -187,7 +187,8 @@ class Threads_VS implements Runnable{
 					      microInsertionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
 					      microDeletionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
 					      microInversionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
-					      microTranslocationRecords+"\n\nNumber summary: \n"+
+					      microTranslocationRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+					      "\n\nNumber summary: \n"+
 					      "\n\nNumber of Insertions:"+num_Insertions+"\n\nNumber of Deletions:"+num_Deletions+"\n\nNumber of Inversions:"+num_Inversions+"\n\nNumber of Translocations:"+num_Translocations+"\n\n"+
 					      "Number of Micro Insertions:"+num_MicroInsertions+"\n\nNumber of Micro Deletions:"+num_MicroDeletions+"\n\nNumber of MicroInversions:"+num_MicroInversions+"\n\nNumber of Micro Translocations:"+num_MicroTranslocations+
 						  "\n\n");
