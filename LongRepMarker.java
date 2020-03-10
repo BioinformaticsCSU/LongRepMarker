@@ -1010,7 +1010,7 @@ public class LongRepMarker {
 					CommonClass.FileToArray(ParentPath+"/alignment/RepeatLib_orginal.fa", SaveRepeats, ">");
 					int CountIterm=0;
 					for(int g=0;g<Real_RepeatSize;g++){
-						if(CountIterm<SplitSize){
+						if(CountIterm<Repeat_SplitSize){
 							 FileWriter writer1= new FileWriter(ParentPath+"/alignment/Repeats_"+fileIndex+".fa",true);
 							 writer1.write(">Repeat_"+fileIndex+"_"+(LineNum++)+"\n"+SaveRepeats[g]+"\n");
 							 writer1.close();
@@ -1050,6 +1050,7 @@ public class LongRepMarker {
 						   bufferedReader_VS.close();
 						}
 			      	}
+			      	CommonClass.copyFile(ParentPath+"/alignment/Variations.fa",o+"/Variations.fa");
 				}
 				else
 				{
