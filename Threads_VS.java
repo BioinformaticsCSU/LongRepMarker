@@ -65,15 +65,15 @@ class Threads_VS implements Runnable{
 					     }
 						 else
 					     {
-							if(MultipleFragments_Set.size()>=1){
+							 if(MultipleFragments_Set.size()>=1){
 							     for(int g=0;g<MultipleFragments_Set.size();g++){
-							    	String [] FragementLine=MultipleFragments_Set.get(g).split("\t|\\s+");
-							    	String FragmentsID=FragementLine[0];
-							    	String ReferenceID=FragementLine[2];
-							    	String StartPosition=FragementLine[3];
-							    	String CigarString=FragementLine[5];
-							    	String SavePositionStr="$";
-							    	for(int y=0;y<CigarString.length();y++){
+								    String [] FragementLine=MultipleFragments_Set.get(g).split("\t|\\s+");
+								    String FragmentsID=FragementLine[0];
+								    String ReferenceID=FragementLine[2];
+								    String StartPosition=FragementLine[3];
+								    String CigarString=FragementLine[5];
+								    String SavePositionStr="$";
+								    for(int y=0;y<CigarString.length();y++){
 										if(Character.isDigit(CigarString.charAt(y))){
 											SavePositionStr+=CigarString.charAt(y);
 										}
@@ -99,13 +99,13 @@ class Threads_VS implements Runnable{
 													int VariSize=Integer.parseInt(SavePositionStr.substring(1,SavePositionStr.length()));
 													if(VariSize>=50)
 													{
-													    deletionRecords+=" "+FragmentsID+" \t\t Novo Deletion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
-													    num_Deletions++;
+														deletionRecords+=" "+FragmentsID+" \t\t Novo Deletion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
+														num_Deletions++;
 													}
 													else
 													{
 														microDeletionRecords+=" "+FragmentsID+" \t\t Micro Deletion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
-													    num_MicroDeletions++;
+														num_MicroDeletions++;
 													}
 													SavePositionStr="$";
 												}
@@ -113,13 +113,13 @@ class Threads_VS implements Runnable{
 													int VariSize=Integer.parseInt(SavePositionStr.substring(1,SavePositionStr.length()));
 													if(VariSize>=50)
 													{
-													    insertionRecords+=" "+FragmentsID+" \t\t Novo Insertion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
-													    num_Insertions++;
+														insertionRecords+=" "+FragmentsID+" \t\t Novo Insertion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
+														num_Insertions++;
 													}
 													else
 													{
 														microInsertionRecords+=" "+FragmentsID+" \t\t Micro Insertion \t\t "+VariSize+" \t\t "+CigarString+" \t\t "+ReferenceID+" \t\t "+StartPosition+" \n";
-													    num_MicroInsertions++;
+														num_MicroInsertions++;
 													}
 													SavePositionStr="$";
 												}
@@ -129,69 +129,46 @@ class Threads_VS implements Runnable{
 												SavePositionStr="$";
 											}
 										}
-						    		}
-							     }
-							 }
-							 if(MultipleFragments_Set.size()>=2){
-						    	 String [] Fragement=((List<String>) MultipleFragments_Set).get(0).split("\t|\\s+");
-						    	 String FragmentsID=Fragement[0];	
-							     for(int g=0;g<MultipleFragments_Set.size();g++){
-							    	if(((List<String>) MultipleFragments_Set).get(g).charAt(0)!='#'){
-										String [] FragementLine1=((List<String>) MultipleFragments_Set).get(g).split("\t|\\s+");
-										String ReferenceID1=FragementLine1[2];
-										String StartPosition1=FragementLine1[3];
-								    	for(int h=g+1;h<MultipleFragments_Set.size();h++){
-								    		if(((List<String>) MultipleFragments_Set).get(h).charAt(0)!='#'){
-								    		    String [] FragementLine2=((List<String>) MultipleFragments_Set).get(h).split("\t|\\s+");
-								    		    String ReferenceID2=FragementLine2[2];
-								    		    String StartPosition2=FragementLine2[3];
-	                                           	if((ReferenceID1.equals(ReferenceID2))&&(Integer.parseInt(StartPosition1)>Integer.parseInt(StartPosition2))){
-	                                        		if(FragementLine2[9].length()>=50){
-		                                           		inversionRecords+=" "+FragmentsID+" \t\t Novo Inversion \t\t "+FragementLine2[9].length()+" \t\t "+ReferenceID2+" \t\t "+StartPosition2+" \n";
-		                                        		String MarkString="#"+((List<String>) MultipleFragments_Set).get(h);
-		                                        		((List<String>) MultipleFragments_Set).add(h, MarkString);
-		                                        		num_Inversions++;
+							    	}
+								    if(!MultipleFragments_Set.get(g).startsWith("@"))
+								    {
+								    	if(MultipleFragments_Set.size()>=2){
+								    	    if(((g+1)<MultipleFragments_Set.size())&&(!MultipleFragments_Set.get(g).startsWith("@"))&&(!MultipleFragments_Set.get(g+1).startsWith("@"))){
+								    	    	String [] SplitFragement=MultipleFragments_Set.get(g+1).split("\t|\\s+");
+												String ReferenceID1=SplitFragement[2];
+												String StartPosition1=SplitFragement[3];
+	                                           	if((ReferenceID.equals(ReferenceID1))&&(Integer.parseInt(StartPosition)>Integer.parseInt(StartPosition1))){
+	                                        		if(SplitFragement[9].length()>=50){
+		                                           		inversionRecords+=" "+FragmentsID+" \t\t Novo Inversion \t\t "+SplitFragement[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
+		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
+		                                        		MultipleFragments_Set.set(g+1,MarkString);
 	                                        		}
 	                                        		else
 	                                        		{
-		                                           		inversionRecords+=" "+FragmentsID+" \t\t Micro Inversion \t\t "+FragementLine2[9].length()+" \t\t "+ReferenceID2+" \t\t "+StartPosition2+" \n";
-		                                        		String MarkString="#"+((List<String>) MultipleFragments_Set).get(h);
-		                                        		((List<String>) MultipleFragments_Set).add(h, MarkString);
-		                                        		num_MicroInversions++;
+	                                        			microInversionRecords+=" "+FragmentsID+" \t\t Micro Inversion \t\t "+SplitFragement[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
+		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
+		                                        		MultipleFragments_Set.set(g+1,MarkString);
 	                                        		}
 	                                        	}
-								    		}
+	                                           	if(!ReferenceID.equals(ReferenceID1)){
+	                                        		if(SplitFragement[9].length()>=50){
+	                                        			translocationRecords+=" "+FragmentsID+" \t\t Novo Translocation \t\t "+FragementLine[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
+		                                           		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
+		                                        		MultipleFragments_Set.set(g+1,MarkString);
+	                                        		}
+	                                        		else
+	                                        		{
+	                                        			microTranslocationRecords+=" "+FragmentsID+" \t\t Micro Inversion \t\t "+SplitFragement[9].length()+" \t\t "+ReferenceID1+" \t\t "+StartPosition1+" \n";
+		                                        		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g+1);
+		                                        		MultipleFragments_Set.set(g+1,MarkString);
+	                                        		}
+	                                           	}
+								    	    }
 								    	}
+	                            		String MarkString="@"+((List<String>) MultipleFragments_Set).get(g);
+	                            		MultipleFragments_Set.set(g,MarkString);
 							    	}
 							     }
-							     for(int g=0;g<MultipleFragments_Set.size();g++){
-							    	if(((List<String>) MultipleFragments_Set).get(g).charAt(0)!='#'){
-										String [] FragementLine1=((List<String>) MultipleFragments_Set).get(g).split("\t|\\s+");
-										String ReferenceID1=FragementLine1[2];
-										for(int h=g+1;h<MultipleFragments_Set.size();h++){
-								    		if(((List<String>) MultipleFragments_Set).get(h).charAt(0)!='#'){
-								    		    String [] FragementLine2=((List<String>) MultipleFragments_Set).get(h).split("\t|\\s+");
-								    		    String ReferenceID2=FragementLine2[2];
-								    		    String StartPosition2=FragementLine2[3];
-	                                           	if(!ReferenceID1.equals(ReferenceID2)){
-	                                        		if(FragementLine2[9].length()>=50){
-		                                           		inversionRecords+=" "+FragmentsID+" \t\t Novo Translocation \t\t "+FragementLine2[9].length()+" \t\t "+ReferenceID2+" \t\t "+StartPosition2+" \n";
-		                                        		String MarkString="#"+((List<String>) MultipleFragments_Set).get(h);
-		                                        		((List<String>) MultipleFragments_Set).add(h, MarkString);
-		                                        		num_Translocations++;
-	                                        		}
-	                                           	    else
-	                                           	    {
-		                                           		inversionRecords+=" "+FragmentsID+" \t\t Micro Translocation \t\t "+FragementLine2[9].length()+" \t\t "+ReferenceID2+" \t\t "+StartPosition2+" \n";
-		                                        		String MarkString="#"+((List<String>) MultipleFragments_Set).get(h);
-		                                        		((List<String>) MultipleFragments_Set).add(h, MarkString);
-		                                        		num_MicroTranslocations++;
-	                                           	    }
-	                                        	}
-								    		}
-								    	}
-							    	}
-							     }	
 							 }
 							 FragmentID_Set.clear();
 							 MultipleFragments_Set.clear();
@@ -203,15 +180,14 @@ class Threads_VS implements Runnable{
 			}
 			FileWriter writer1= new FileWriter(homePath+"/alignment/Variations_"+index+".fa",true);
 			writer1.write("\n--------------------------------------------------------------------------------------------------Cluster "+index+" Start---------------------------------------------------------------------------------------------------\n"+
-			              
-						  insertionRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-			              deletionRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-						  inversionRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-						  translocationRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-					      microInsertionRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-					      microDeletionRecords+"\n-------------------------------------------------------------------------------------------------------------------------\n"+
-					      microInversionRecords+"\n----------------------------------------------------------\n"+microTranslocationRecords+
-						  "\n\nNumber summary: \n"+
+						  insertionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+			              deletionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+						  inversionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+						  translocationRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+					      microInsertionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+					      microDeletionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+					      microInversionRecords+"\n-------------------------------------------------------------------------------------------------------------------------------------------------\n"+
+					      microTranslocationRecords+"\n\nNumber summary: \n"+
 					      "\n\nNumber of Insertions:"+num_Insertions+"\n\nNumber of Deletions:"+num_Deletions+"\n\nNumber of Inversions:"+num_Inversions+"\n\nNumber of Translocations:"+num_Translocations+"\n\n"+
 					      "Number of Micro Insertions:"+num_MicroInsertions+"\n\nNumber of Micro Deletions:"+num_MicroDeletions+"\n\nNumber of MicroInversions:"+num_MicroInversions+"\n\nNumber of Micro Translocations:"+num_MicroTranslocations+
 						  "\n\n");
