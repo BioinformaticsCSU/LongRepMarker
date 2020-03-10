@@ -679,10 +679,16 @@ public class CommonClass {
 			   }
 			   bufferedReaderDepth.close();
 		}
-		for (int p=0;p<HighCoverageRegions.size();p++) {
-		    FileWriter writer1= new FileWriter(OutputPath,true);
-		    writer1.write(">Node_"+(depth_Index++)+"_"+HighCoverageRegions.get(p).length()+"\n"+HighCoverageRegions.get(p)+"\n");
-		    writer1.close();
+		if(HighCoverageRegions.size()>0){
+			   for (int p=0;p<HighCoverageRegions.size();p++) {
+		              FileWriter writer1= new FileWriter(OutputPath,true);
+		              writer1.write(">Node_"+(depth_Index++)+"_"+HighCoverageRegions.get(p).length()+"\n"+HighCoverageRegions.get(p)+"\n");
+		              writer1.close();
+		       }
+		}
+        else
+		{
+			   System.out.println("No fragments satisfying this size were detected, please adjust the parameter m.");
 		}
 		readmark=null;
 		overlaps=null;
