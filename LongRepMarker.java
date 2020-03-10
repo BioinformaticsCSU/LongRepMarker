@@ -25,18 +25,28 @@ public class LongRepMarker {
 		/***************************************************
 		 ***************************************************
 		 ***************************************************
-		 * 'k': The k-mer size.
-		 * 'm': The minimum size of repeats. 
-		 * 'l': The 10X linked read file. 
-		 * 'q1': The left fastq file.
-		 * 'q2': The right fastq file.
-		 * 't': The number of threads.
-		 * 'M': Evaluation the final repeat lib by multiple aligner(If the value is set to 'yes').
-		 * 'Q': Evaluation the final repeat lib by quast(If the value is set to 'yes'). 
-		 * 'r': The reference file. 
-		 * 'E': Error correction. The value of E is set to 'yes', indicating that DLR performs error correction on long reads.  
-		 * 'o': The path used to save the final RepeatLib.
-		 * 'f': The reference file used for results evaluation.
+	     -Xmx256G <This parameter is only used when processing large datasets (For example: the genome size exceeds 5Gb)>
+	     -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
+		 -k   <The k-mer size used during the detection(Default value: 49)>
+		 -E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>
+		 -t   <The number of threads(Default value: 8)>
+         -m   <The minmum size of repeats(Default value: 5kb)>
+		 -q1  <The file with left reads for the 1-th paired-end reads>
+		 -q2  <The file with right reads for the 1-th paired-end reads>
+		 -q3  <The file with left reads for the 2-th paired-end reads>
+		 -q4  <The file with right reads for the 2-th paired-end reads>
+		 -q5  <The file with left reads for the 3-th paired-end reads>
+		 -q6  <The file with right reads for the 3-th paired-end reads>
+		 -q7  <The file with left reads for the 4-th paired-end reads>
+		 -q8  <The file with right reads for the 4-th paired-end reads>
+		 -q9  <The file with left reads for the 5-th paired-end reads>
+		 -q10 <The file with right reads for the 5-th paired-end reads>
+		 -l   <The file of 10X linked reads>
+		 -M   <This parameter controls whether the alignment rate of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
+         -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
+		 -f   <The reference file used for results evaluation>
+		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
+         -o   <The path used to save the final detection results>
 		 * **************************************************
 		 * **************************************************
 		 * **************************************************
@@ -147,7 +157,7 @@ public class LongRepMarker {
 			};
 			    break;
 			case "v": {
-				f = args[i + 1];
+				v = args[i + 1];
 			};
 			    break;
 			case "E": {
@@ -594,7 +604,37 @@ public class LongRepMarker {
 					  String full_name10=SplitLine10[SplitLine10.length-1];
 					  String last_name10=full_name10.substring(0,full_name10.length());	
 			    	  String f10=ParentPath+"/readfile/karect_"+last_name10;
-			    	  if(a.equals("")&&(!E.equals("") || E.equals("yes"))){
+					  File F1 = new File(f1);
+					  if(F1.exists())
+					     CommonClass.deleteFile(F1);
+					  File F2 = new File(f2);
+					  if(F2.exists())
+					     CommonClass.deleteFile(F2);
+					  File F3 = new File(f3);
+					  if(F3.exists())
+					     CommonClass.deleteFile(F3);
+					  File F4 = new File(f4);
+					  if(F4.exists())
+					     CommonClass.deleteFile(F4);
+					  File F5 = new File(f5);
+					  if(F5.exists())
+					     CommonClass.deleteFile(F5);
+					  File F6 = new File(f6);
+					  if(F6.exists())
+					     CommonClass.deleteFile(F6);
+					  File F7 = new File(f7);
+					  if(F7.exists())
+					     CommonClass.deleteFile(F7);
+					  File F8 = new File(f8);
+					  if(F8.exists())
+					     CommonClass.deleteFile(F8);
+					  File F9 = new File(f9);
+					  if(F9.exists())
+					     CommonClass.deleteFile(F9);
+					  File F10 = new File(f10);
+					  if(F10.exists())
+					     CommonClass.deleteFile(F10);
+			    	  if(E.equals("yes")){
 				    	  if((!q1.equals(""))&&(!q2.equals(""))){
 							  System.out.print("lib:1-2 | ");
 					    	  String[] cmd_errorCorrection = { "sh", "-c", ParentPath+"/tools/karect -correct -threads=128 -matchtype=hamming -celltype=haploid -tempdir="+ParentPath+"/readfile/ -resultdir="+ParentPath+"/readfile/ -inputfile="+q1+" -inputfile="+q2+" > "+ParentPath+"/readfile/read1.log"};
@@ -642,36 +682,31 @@ public class LongRepMarker {
 			    	  }
 			    	  else
 			    	  {
-			    		  System.out.print("no | ");
+			    		  System.out.println("no | Error Correction is Skiped ]");
 				    	  if(!q1.equals("")&&!q2.equals(""))
 				    	  {
-				    		  CommonClass.copy_files(q1,f1);
-				    		  CommonClass.copy_files(q2,f2);
+				    		  CommonClass.copyFile(q1,f1);
+				    		  CommonClass.copyFile(q2,f2);
 				    	  }
 				    	  if(!q3.equals("")&&!q4.equals(""))
 				    	  {
-				    		  CommonClass.copy_files(q3,f3);
-				    		  CommonClass.copy_files(q4,f4);
+				    		  CommonClass.copyFile(q3,f3);
+				    		  CommonClass.copyFile(q4,f4);
 				    	  }
 				    	  if(!q5.equals("")&&!q6.equals(""))
 				    	  {
-				    		  CommonClass.copy_files(q5,f6);
-				    		  CommonClass.copy_files(q6,f6);
+				    		  CommonClass.copyFile(q5,f6);
+				    		  CommonClass.copyFile(q6,f6);
 				    	  }
 				    	  if(!q7.equals("")&&!q8.equals(""))
 				    	  {
-				    		  CommonClass.copy_files(q7,f7);
-				    		  CommonClass.copy_files(q8,f8);
+				    		  CommonClass.copyFile(q7,f7);
+				    		  CommonClass.copyFile(q8,f8);
 				    	  }
 				    	  if(!q9.equals("")&&!q10.equals(""))
 				    	  {
-				    		  CommonClass.copy_files(q9,f9);
-				    		  CommonClass.copy_files(q10,f10);
-				    	  }
-				    	  if(!a.equals(""))
-				    	  {
-							  System.out.println("The error correction process has been skipped ]");
-				    		  CommonClass.copyFile(a,ParentPath+"/readfile/scaffolds.fasta");
+				    		  CommonClass.copyFile(q9,f9);
+				    		  CommonClass.copyFile(q10,f10);
 				    	  }
 			    	  }
 			    	  System.out.print("Step3: de novo assembly [ ");
@@ -680,48 +715,41 @@ public class LongRepMarker {
 			    	  File Q3 = new File(f5);
 			    	  File Q4 = new File(f7);
 			    	  File Q5 = new File(f9);
-			    	  if(a.equals(""))
-			    	  {
-				    	  if(Q1.exists()&&!Q2.exists())
-				    	  {
-							  System.out.println("Assembly:1-2 ]");
-					    	  String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" -s "+l+"-o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
-							  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
-							  p_assemblyRun.waitFor();
-				    	  }
-				    	  if(Q1.exists()&&Q2.exists()&&!Q3.exists())
-				    	  {
-							  System.out.println("Assembly:1-4 ]");
-					    	  String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" -s "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
-					    	  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
-							  p_assemblyRun.waitFor();
-				    	  }
-				    	  if(Q1.exists()&&Q2.exists()&&Q3.exists()&&!Q4.exists())
-				    	  {
-							  System.out.println("Assembly:1-6 ]");
-					    	  String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" -s "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
-					    	  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
-							  p_assemblyRun.waitFor();
-				    	  }
-				    	  if(Q1.exists()&&Q2.exists()&&Q3.exists()&&Q4.exists()&&!Q5.exists())
-				    	  {
-							  System.out.println("Assembly:1-8 ]");
-					    	  String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" --mp3-1 "+f7+" --mp3-2 "+f8+" -s "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
-					    	  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
-							  p_assemblyRun.waitFor();
-				    	  }
-				    	  if(Q1.exists()&&Q2.exists()&&Q3.exists()&&Q4.exists()&&Q5.exists())
-				    	  {
-							  System.out.println("Assembly:1-10 ]");
-					    	  String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" --mp3-1 "+f7+" --mp3-2 "+f8+" --mp4-1 "+f9+" --mp4-2 "+f10+" -s "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
-					    	  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
-							  p_assemblyRun.waitFor();
-				    	  }
-			    	  }
-			    	  else
-			    	  {
-			    		  System.out.println(" no | The assembly process has been skipped and the assemblies are now loaded ]");
-			    	  }
+				      if(Q1.exists()&&!Q2.exists())
+				      {
+						  System.out.println("Assembly:1-2 ]");
+					      String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --trusted-contigs "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
+						  p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
+						  p_assemblyRun.waitFor();
+				      }
+				      if(Q1.exists()&&Q2.exists()&&!Q3.exists())
+				      {
+						  System.out.println("Assembly:1-4 ]");
+					      String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --trusted-contigs "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
+					      p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
+						  p_assemblyRun.waitFor();
+				      }
+				      if(Q1.exists()&&Q2.exists()&&Q3.exists()&&!Q4.exists())
+				      {
+						  System.out.println("Assembly:1-6 ]");
+					      String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" --trusted-contigs "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
+					      p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
+						  p_assemblyRun.waitFor();
+				      }
+				      if(Q1.exists()&&Q2.exists()&&Q3.exists()&&Q4.exists()&&!Q5.exists())
+				      {
+						  System.out.println("Assembly:1-8 ]");
+					      String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" --mp3-1 "+f7+" --mp3-2 "+f8+" --trusted-contigs "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
+					      p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
+						  p_assemblyRun.waitFor();
+				      }
+				      if(Q1.exists()&&Q2.exists()&&Q3.exists()&&Q4.exists()&&Q5.exists())
+				      {
+						  System.out.println("Assembly:1-10 ]");
+					      String[] cmd_assemblyRun = { "sh", "-c", ParentPath+"/tools/SPAdes-3.10.1-Linux/bin/spades.py --only-assembler -t 64 --pe1-1 "+f1+" --pe1-2 "+f2+" --mp1-1 "+f3+" --mp1-2 "+f4+" --mp2-1 "+f5+" --mp2-2 "+f6+" --mp3-1 "+f7+" --mp3-2 "+f8+" --mp4-1 "+f9+" --mp4-2 "+f10+" --trusted-contigs "+l+" -o "+ParentPath+"/readfile/ > "+ParentPath+"/Log/SPAdeslog.out" };
+					      p_assemblyRun=r_assemblyRun.exec(cmd_assemblyRun);
+						  p_assemblyRun.waitFor();
+				      }
 			    }
 			    catch(Exception e){
 			    	  System.out.println("Step03 Error:"+e.getMessage());
@@ -729,7 +757,7 @@ public class LongRepMarker {
 			    }
 				CommonClass.MergeFastaMultiLines(ParentPath,ParentPath+"/readfile/scaffolds.fasta",ParentPath+"/alignment/Oringnal.fasta");
 				CommonClass.RewriteFile(ParentPath+"/alignment/Oringnal.fasta",ParentPath+"/alignment/LinearFile.fasta",m);
-				System.out.println("Step4: Finding overlap sequences between chromosomes");
+				System.out.println("Step4: Finding overlap sequences between contigs");
 				CommonClass.DelePathFiles(ParentPath+"/alignment/","ovlp.paf");
 				CommonClass.DelePathFiles(ParentPath+"/alignment/","OverlapRegions.fa");
 				Runtime r_overlap = Runtime.getRuntime();
@@ -940,6 +968,7 @@ public class LongRepMarker {
 				CommonClass.mapping_HighCovRegions2Ref(ParentPath, m, 2, r, t);
 				System.out.print("Step9: Identification of the genetic variations in repetitive regions [");
 				if(v.equals("yes")&&(!f.equals(""))){
+					System.out.print(f+"] ");
 					int fileIndex=0;
 					int LineNum=0;
 					int Repeat_SplitSize=0;
@@ -979,34 +1008,34 @@ public class LongRepMarker {
 					Repeat_SplitSize=Real_RepeatSize/ClusterSize;
 					String SaveRepeats[]=new String[Real_RepeatSize];
 					CommonClass.FileToArray(ParentPath+"/alignment/RepeatLib_orginal.fa", SaveRepeats, ">");
+					int CountIterm=0;
 					for(int g=0;g<Real_RepeatSize;g++){
-						if(g!=0 && ((double)g/Repeat_SplitSize!=0)){
+						if(CountIterm<SplitSize){
 							 FileWriter writer1= new FileWriter(ParentPath+"/alignment/Repeats_"+fileIndex+".fa",true);
 							 writer1.write(">Repeat_"+fileIndex+"_"+(LineNum++)+"\n"+SaveRepeats[g]+"\n");
 							 writer1.close();
+							 CountIterm++;
 						}
 						else
 						{
 							 fileIndex++;
-							 LineNum=0;
+							 CountIterm=0;
+							 FileWriter writer1= new FileWriter(ParentPath+"/alignment/Repeats_"+fileIndex+".fa",true);
+							 writer1.write(">Repeat_"+fileIndex+"_"+(LineNum++)+"\n"+SaveRepeats[g]+"\n");
+							 writer1.close();
+							 CountIterm++;
 						}
 					}
-			      	int MapThreads=fileIndex;
+			      	int MapThreads=fileIndex+1;
 			      	ExecutorService pool_2 = Executors.newFixedThreadPool(MapThreads);
-			      	for(int s=0;s<fileIndex;s++)
+			      	for(int s=0;s<=fileIndex;s++)
 			      	{
-			      		if(s!=MapThreads-1){
-			      			Threads_VS mt = new Threads_VS(s,ParentPath);
-			      			pool_1.execute(mt);
-			      		}
-			      		else
-			      		{
-			      			Threads_VS mt = new Threads_VS(s,ParentPath);
-			      			pool_1.execute(mt);
-			      		}
+			      		Threads_VS mt = new Threads_VS(s,ParentPath);
+			      		pool_2.execute(mt);
 			      	}
 			      	pool_2.shutdown();
 			      	pool_2.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+					String VS_write=ParentPath+"/alignment/Variations.fa";
 			      	for(int x=0;x<fileIndex;x++){
 			      		File VS_file = new File(ParentPath+"/alignment/Variations_"+x+".fa");
 						String VS_Str="";
@@ -1014,7 +1043,7 @@ public class LongRepMarker {
 						   InputStreamReader VSRead = new InputStreamReader(new FileInputStream(VS_file), "utf-8"); 
 						   BufferedReader bufferedReader_VS = new BufferedReader(VSRead);
 						   while ((VS_Str=bufferedReader_VS.readLine())!=null){
-								FileWriter writer1 = new FileWriter(o, true);
+								FileWriter writer1 = new FileWriter(VS_write, true);
 								writer1.write(VS_Str+"\n");
 								writer1.close();
 						   }
@@ -1024,7 +1053,7 @@ public class LongRepMarker {
 				}
 				else
 				{
-					System.out.println(" The VS identification is skiped ]");
+					System.out.println(" Missing parameter f. The VS identification is skiped ]");
 				}
 				System.out.println("Step9: Merging fragments with duplication or inclusion relationships");
 				CommonClass.merging_relationships(ParentPath+"/alignment/RepeatLib_orginal.fa",ParentPath+"/alignment/RepeatLib.fa");
