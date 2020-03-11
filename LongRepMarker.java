@@ -1091,9 +1091,29 @@ public class LongRepMarker {
 		    System.out.println("\nPlease check the configuration of parameters.\n");
 		    System.out.println("[Usage]: java [options] LongRepMarker [main arguments]");
 		    System.out.println("[options]:");
-		    System.out.println(" * -Xmx300G : This parameter is only used when working with large data sets.");
+		    System.out.println(" * -Xmx250G : This parameter is only used when working with large data sets.");
 		    System.out.println("[Main arguments]:");
-		    System.out.println(" * -K <int>: The k-mer size (71).\n * -m <int>: The minimum size of repeat (5000bp).\n * -q1 <string>: The file with left reads for paired-end library number 1.\n * -q2 <string>: The file with right reads for paired-end library number 1.\n * -q3 <string>: The file with left reads for paired-end library number 2.\n * -q4 <string>: The file with right reads for paired-end library number 2.\n * -q5 <string>: The file with left reads for paired-end library number 3.\n * -q6 <string>: The file with right reads for paired-end library number 3.\n * -q7 <string>: The file with left reads for paired-end library number 4.\n * -q8 <string>: The file with right reads for paired-end library number 4.\n * -q9 <string>: The file with left reads for paired-end library number 5.\n * -q10 <string>: The file with right reads for paired-end library number 5.\n * -t <int>: The number of threads (64).\n * -r <string>: The reference file.\n * -E <string>: Whether to perform data error correction (yes/no). \n * -M <string>: Whether to perform Quast evluation (yes/no). \n * -o <string>: The path used to save the final RepeatLib.");
+		    System.out.println("-r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>\n"+
+		   		 "-k   <The k-mer size used during the detection(Default value: 49)>\n"+
+				 "-E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>\n"+
+				 "-t   <The number of threads(Default value: 8)>\n"+
+		         "-m   <The minmum size of repeats(Default value: 5kb)>\n"+
+				 "-q1  <The file with left reads for the 1-th paired-end reads>\n"+
+				 "-q2  <The file with right reads for the 1-th paired-end reads>\n"+
+				 "-q3  <The file with left reads for the 2-th paired-end reads>\n"+
+				 "-q4  <The file with right reads for the 2-th paired-end reads>\n"+
+				 "-q5  <The file with left reads for the 3-th paired-end reads>\n"+
+				 "-q6  <The file with right reads for the 3-th paired-end reads>\n"+
+				 "-q7  <The file with left reads for the 4-th paired-end reads>\n"+
+				 "-q8  <The file with right reads for the 4-th paired-end reads>\n"+
+				 "-q9  <The file with left reads for the 5-th paired-end reads>\n"+
+				 "-q10 <The file with right reads for the 5-th paired-end reads>\n"+
+				 "-l   <The file of 10X linked reads>\n"+
+				 "-M   <This parameter controls whether the alignment rate of detection results is counted(Setting this parameter to 'yes' indicates statistics)>\n"+
+		         "-Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>\n"+
+				 "-f   <The reference file used for results evaluation>\n"+
+				 "-v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>\n"+
+		         "-o   <The path used to save the final detection results>\n");
 		    System.out.println("*****************************************************************************");
 		    System.out.println("*****************************************************************************");
 	    }
