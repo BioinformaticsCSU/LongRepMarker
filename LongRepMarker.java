@@ -968,7 +968,7 @@ public class LongRepMarker {
 				CommonClass.mapping_HighCovRegions2Ref(ParentPath, m, 2, r, t);
 				System.out.print("Step9: Identification of the genetic variations in repetitive regions [");
 				if(v.equals("yes")&&(!f.equals(""))){
-					System.out.print(f+"] ");
+					System.out.println(f+"] ");
 					int fileIndex=0;
 					int LineNum=0;
 					int Repeat_SplitSize=0;
