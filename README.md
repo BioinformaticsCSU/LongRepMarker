@@ -1,6 +1,6 @@
 Latest Version
 ==============
-Please see the latest version of LongRepMarker:https://github.com/BioinformaticsCSU/LongRepMarker
+Please see the latest version of LongRepMarker on docker-hub: https://registry.hub.docker.com/repository/docker/liaoxy2docker/longrepmarker_docker
 
 
 License
