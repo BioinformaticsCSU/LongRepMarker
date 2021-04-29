@@ -1,6 +1,6 @@
 Latest Version
 ==============
-Please see the latest version of LongRepMarker on docker-hub: https://registry.hub.docker.com/repository/docker/liaoxy2docker/longrepmarker_docker
+Please see the latest version of LongRepMarker on docker-hub : https://registry.hub.docker.com/repository/docker/liaoxy2docker/longrepmarker_docker
 
 
 License
