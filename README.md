@@ -43,16 +43,16 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 ### Run LongRepMarker.
 
     Running command (/home/LongRepMarker):  
-    java -Xmx80G LongRepMarker [options] 
+    	java -Xmx300G LongRepMarker [options] 
 	
 	[options]
 	
-	         -Xmx256G <This parameter is only used when processing large datasets (For example: the genome size exceeds 5Gb)>
+	         -Xmx300G <This parameter is only used when processing the large datasets (For example: the genome size exceeds 5Gb)>
 	         -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
 		 -k   <The k-mer size used in detection(Default value: 49)>
 		 -E   <This parameter controls whether the error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
-		 -t   <The number of threads(Default value: 8)>
-             -m   <The minmum size of repeats(Default value: 5kb)>
+		 -t   <The number of threads (Default value: 8)>
+             -m   <The minmum length of detected fragment (Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
 		 -q2  <The file with right reads for the 1-th paired-end reads>
 		 -q3  <The file with left reads for the 2-th paired-end reads>
@@ -63,8 +63,15 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		 -q8  <The file with right reads for the 4-th paired-end reads>
 		 -q9  <The file with left reads for the 5-th paired-end reads>
 		 -q10 <The file with right reads for the 5-th paired-end reads>
-		 -l   <The file of 10X linked reads>
-		 -M   <This parameter controls whether the alignment rate of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
+		 -l   <The file of SMS long reads>
+		 -M   <This parameter controls whether to evaluate the alignment of detected fragments. (Setting this parameter to 'yes' indicates the alignment between detected fragments and the reference genome will be executed and a report will be generated in final results)>
+		 
+		 
+		 
+
+		 
+		 
+		 
              -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
 		 -f   <The reference file used for results evaluation>
 		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
