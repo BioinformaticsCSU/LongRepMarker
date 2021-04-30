@@ -64,7 +64,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		 -q9  <The file with left reads for the 5-th paired-end reads>
 		 -q10 <The file with right reads for the 5-th paired-end reads>
 		 -l   <The file of SMS long reads>
-		 -M   <This parameter controls whether to evaluate the alignment of detected fragments. (Setting this parameter to 'yes' indicates the alignment between detected fragments and the reference genome will be executed and a report will be generated in final results)>
+		 -M   <This parameter controls whether to evaluate the alignment between detected fragments and the reference genome. (Setting this parameter to 'yes' indicates the alignment between detected fragments and the reference genome will be executed and a report will be generated in final results)>
 		 
 		 
 		 
