@@ -50,7 +50,8 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 	         -Xmx300G <This parameter is only used when processing the large datasets (For example: the genome size exceeds 5Gb)>
 	         -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
 		 -k   <The k-mer size used in detection(Default value: 49)>
-		 -E   <This parameter controls whether the error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
+		 -e   <This parameter controls whether the short reads error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
+		 -E   <This parameter controls whether the long reads error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -t   <The number of threads (Default value: 8)>
              -m   <The minmum length of detected fragment (Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
