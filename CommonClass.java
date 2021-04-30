@@ -1,24 +1,32 @@
 //package Program;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CommonClass {
-
+	public static int RSHash(String str) {
+		int hash = 0;
+		for (int i = 0; i < str.length(); i++) {
+			hash = str.charAt(i) + (hash << 6) + (hash << 16) - hash;
+		}
+		return (hash & 0x7FFFFFFF);
+	}
 	public static int getFileLines(String ReadSetPath) throws IOException {
 		int line = 0;
 		String encoding = "utf-8";
@@ -40,8 +48,8 @@ public class CommonClass {
 		}
 		return filesize;
 	}
-	public static int getFileLength(String ReadSetPath) throws IOException {
-		int line = 0;
+	public static double getFileLength(String ReadSetPath) throws IOException {
+		double line = 0;
 		String readtemp = "";
 		String encoding = "utf-8";
 		File file = new File(ReadSetPath);
@@ -104,6 +112,53 @@ public class CommonClass {
 		}
 		return count;
 	}
+	public static int FileToArray3(String FileSetPath, String[] FileSetArray, String FilterChar) {
+		int count = 0;
+		String readtemp1 = "";
+		String readtemp2 = "";
+		try {
+			String encoding = "utf-8";
+			File file = new File(FileSetPath);
+			if (file.isFile() && file.exists()) {
+				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+				BufferedReader bufferedReader = new BufferedReader(read);
+				while ((readtemp1 = bufferedReader.readLine()) != null && (readtemp2 = bufferedReader.readLine()) != null) {
+					String[] Splitp = readtemp1.split("_");
+					FileSetArray[Integer.parseInt(Splitp[1])] = readtemp2;
+				}
+				bufferedReader.close();
+			} else {
+				System.out.println("File is not exist!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error liaoxingyu");
+			e.printStackTrace();
+		}
+		return count;
+	}
+	public static int FqToArray(String FileSetPath, String[] FileSetArray) {
+		int count = 0;
+		try {
+			String encoding = "utf-8";
+			File file = new File(FileSetPath);
+			if (file.isFile() && file.exists()) {
+				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+				BufferedReader bufferedReader = new BufferedReader(read);
+				while ((bufferedReader.readLine())!= null) {
+					FileSetArray[count++]=bufferedReader.readLine();
+					bufferedReader.readLine();
+					bufferedReader.readLine();
+				}
+				bufferedReader.close();
+			} else {
+				System.out.println("File is not exist!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error liaoxingyu");
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public static void delAllFile(File path) {
 		if (!path.exists() || !path.isDirectory()) {
 			return;
@@ -126,7 +181,11 @@ public class CommonClass {
 								|| tmpFile.getName().endsWith(".txt"))|| tmpFile.getName().endsWith(".bai")
 						        || tmpFile.getName().endsWith(".part0")|| tmpFile.getName().endsWith(".part0")
 						        || tmpFile.getName().endsWith("_files")|| tmpFile.getName().endsWith(".can")
-						        || tmpFile.getName().startsWith("r_0")|| tmpFile.getName().startsWith("vol0")|| tmpFile.getName().startsWith(".mmi")) {
+						        || tmpFile.getName().startsWith("r_0")|| tmpFile.getName().startsWith("vol0")
+						        || tmpFile.getName().endsWith(".mmi") || tmpFile.getName().endsWith(".records")
+						        || tmpFile.getName().endsWith(".vcf")|| tmpFile.getName().endsWith(".paf")
+						        || tmpFile.getName().startsWith("Reads")|| tmpFile.getName().endsWith(".fastq")
+						        || tmpFile.getName().startsWith("read_")|| tmpFile.getName().endsWith(".fq")) {
 					tmpFile.delete();
 				} else if (tmpFile.isDirectory()) {
 					delAllFile(tmpFile);
@@ -146,6 +205,37 @@ public class CommonClass {
 			System.out.println(file.getAbsoluteFile());
 			file.delete();
 		}
+	}
+	public static List<String> getAllFilePaths(File filePath,List<String> filePaths){
+		File[] files = filePath.listFiles();
+		if(files == null){
+		     return filePaths;    
+		}    
+		for(File f:files){
+		     if(f.isDirectory()){
+		          filePaths.add(f.getPath());
+		          getAllFilePaths(f,filePaths);
+		     }
+		     else
+		     {
+		          filePaths.add(f.getPath());
+		     }    
+		}
+		return filePaths;
+    }
+	public static void deletePath(File file) {
+		if (file.exists()) {
+			if (file.isFile()) {
+				file.delete();
+			} 
+			else if (file.isDirectory()) {
+				File[] files = file.listFiles();
+				for (int i = 0;i < files.length;i ++) {
+					deletePath(files[i]);
+				}
+				file.delete();
+			}
+		} 
 	}
 	public static void GenerateFastaFromFastqFiles(String toolsPath, String FastqFile, String FastaFile) {
 		try {
@@ -170,6 +260,81 @@ public class CommonClass {
 			System.out.println("Error liaoxingyu");
 			e.printStackTrace();
 		}
+	}
+	public static void MergeFastaMultiLines2(String OringnalFile, String WritePath) throws IOException{
+		int IndexNum = 0;
+		String encoding = "utf-8";
+		String readtemp = "";
+		File file1 = new File(OringnalFile);
+		File file2 = new File(WritePath);
+		if(file2.exists()){
+			file2.delete();
+			file2.createNewFile();
+		}
+		else
+		{
+			file2.createNewFile();
+		}
+		if (file1.isFile() && file1.exists() && file2.isFile() && file2.exists()) {
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file1), encoding);
+			BufferedReader bufferedReader = new BufferedReader(read);
+			OutputStreamWriter write = new  OutputStreamWriter(new FileOutputStream(file2),encoding);
+			BufferedWriter bufferedWriter = new BufferedWriter(write) ;
+			while ((readtemp = bufferedReader.readLine()) != null) {
+				if (readtemp.charAt(0)=='>'&&IndexNum==0) {
+					bufferedWriter.write(readtemp+"\n");
+					IndexNum++;
+				}
+				else
+				{
+					if(readtemp.charAt(0)=='>'&&IndexNum!=0){
+						bufferedWriter.write("\n"+readtemp+"\n");
+					}
+					else
+					{
+					    bufferedWriter.write(readtemp);
+					}
+				}
+			}
+			bufferedReader.close();
+			bufferedWriter.close();
+		}
+	}
+	public static void sv_identification(String homePath,String r, String output, int m) throws IOException, InterruptedException{
+		Fa2fq(homePath+"/Results/RepeatLib.fa",homePath+"/Results/RepeatLib.fq", m);
+		Runtime r_mapping = Runtime.getRuntime();
+		Process pr_mapping=null;
+		String[] cmd_mapping = { "sh", "-c", homePath+"/tools/ngmlr-master/bin/ngmlr-0.2.8/ngmlr -t 4 -r "+r+" -q "+homePath+"/Results/RepeatLib.fq -o "+homePath+"/Results/RepeatLib.sam"};
+		pr_mapping=r_mapping.exec(cmd_mapping);
+		pr_mapping.waitFor();
+	    Runtime sam2bam  = Runtime.getRuntime();
+		Process pk_sam2bam=null;
+	    String[] cmd_sam2bam = { "sh", "-c", homePath+"/tools/samtools  view  -bS  "+homePath+"/Results/RepeatLib.sam > "+homePath+"/Results/RepeatLib.bam"};
+	    pk_sam2bam=sam2bam.exec(cmd_sam2bam);
+	    pk_sam2bam.waitFor();
+		File DeletedKmerSamFile=new File(homePath+"/Results/RepeatLib.sam");
+		if(DeletedKmerSamFile.exists()){
+			 CommonClass.deleteFile(DeletedKmerSamFile);
+		}
+		Runtime bam2sort = Runtime.getRuntime();
+		Process pk_bam2sort=null;
+	    String[] cmd_bam2sort = { "sh", "-c", homePath+"/tools/samtools  sort  "+homePath+"/Results/RepeatLib.bam > "+homePath+"/Results/RepeatLib.sort.bam"};
+	    pk_bam2sort=bam2sort.exec(cmd_bam2sort);
+	    pk_bam2sort.waitFor();
+		File DeletedKmerBamFile=new File(homePath+"/Results/RepeatLib.bam");
+		if(DeletedKmerBamFile.exists()){
+			 CommonClass.deleteFile(DeletedKmerBamFile);
+		}
+		Runtime sort2index = Runtime.getRuntime();
+		Process pk_sort2index=null;
+	    String[] cmd_sort2index = { "sh", "-c", homePath+"/tools/samtools  index  "+homePath+"/Results/RepeatLib.sort.bam"};
+	    pk_sort2index=sort2index.exec(cmd_sort2index);
+	    pk_sort2index.waitFor();
+		Runtime sniffles = Runtime.getRuntime();
+		Process pk_sniffles=null;
+	    String[] cmd_sniffles = { "sh", "-c", homePath+"/tools/Sniffles-master/bin/sniffles-core-1.0.11/sniffles -m "+homePath+"/Results/RepeatLib.sort.bam -v "+homePath+"/Results/RepeatLib.vcf"};
+	    pk_sniffles=sniffles.exec(cmd_sniffles);
+	    pk_sniffles.waitFor();
 	}
 	public static int SamFileToArray(String FileSetPath, String[] FileSetArray) {
 		int count = 0;
@@ -211,76 +376,6 @@ public class CommonClass {
 				}
 			}
 		}
-	}
-    private static int compare(String str, String target) 
-    {
-        int d[][];
-        int n = str.length();
-        int m = target.length();
-        int i;
-        int j;
-        char ch1;
-        char ch2;
-        int temp;
-        if (n == 0) {
-            return m;
-        }
-        if (m == 0) {
-            return n;
-        }
-        d = new int[n + 1][m + 1];
-        for (i = 0; i <= n; i++) {
-               d[i][0] = i;
-        }
-        for (j = 0; j <= m; j++) {
-               d[0][j] = j;
-        }
-        for (i = 1; i <= n; i++) {
-            ch1 = str.charAt(i - 1);
-            for (j = 1; j <= m; j++) {
-               ch2 = target.charAt(j - 1);
-               if (ch1 == ch2) {
-                   temp = 0;
-               } else {
-                   temp = 1;
-               }
-               d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + temp);
-            }
-        }
-        return d[n][m];
-    }
-    private static int min(int one, int two, int three) {
-        return (one = one < two ? one : two) < three ? one : three;
-    }
-    public static float getSimilarityRatio(String str, String target) {
-        return 1 - (float) compare(str, target) / Math.max(str.length(), target.length());
-    }
-	public static String maxSubstring(String strOne, String strTwo){
-		if(strOne==null || strTwo == null){
-			return null;
-		}
-		if(strOne.equals("") || strTwo.equals("")){
-			return null;
-		}
-		String max = "";
-		String min = "";
-		if(strOne.length() < strTwo.length()){
-			max = strTwo;
-			min = strOne;
-		} else{
-			max = strTwo;
-			min = strOne;
-		}
-		String current = "";
-		for(int i=0; i<min.length(); i++){
-			for(int begin=0, end=min.length()-i; end<=min.length(); begin++, end++){
-				current = min.substring(begin, end);
-				if(max.contains(current)){
-					return current;
-				}
-			}
-		}
-		return null;
 	}
 	public static String reverse(String s) {
 		int length = s.length();
@@ -353,7 +448,7 @@ public class CommonClass {
 		String encoding = "utf-8";
 		String readtemp = "";
 		File file1 = new File(OringnalFile);
-		if (file1.isFile() && file1.exists()) {
+		if (file1.isFile() && file1.exists()){
 			InputStreamReader read = new InputStreamReader(new FileInputStream(file1), encoding);
 			BufferedReader bufferedReader = new BufferedReader(read);
 			while ((readtemp = bufferedReader.readLine()) != null) {
@@ -366,6 +461,110 @@ public class CommonClass {
 			bufferedReader.close();
 		}
 	}
+	public static void RewriteFile2(String OringnalFile, String WritePath, int m) throws IOException {
+		int IndexNum = 0;
+		String encoding = "utf-8";
+		String readtemp = "";
+		File file1 = new File(OringnalFile);
+		if (file1.isFile() && file1.exists()){
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file1), encoding);
+			BufferedReader bufferedReader = new BufferedReader(read);
+			while ((readtemp = bufferedReader.readLine()) != null) {
+				if (readtemp.charAt(0) != '>') {
+					String[] Splitp = readtemp.split("N");
+					for(int g=0;g<Splitp.length;g++){
+						if(Splitp[g].length()>=m){
+							FileWriter writer1 = new FileWriter(WritePath, true);
+							writer1.write(">NODE_" + (IndexNum++) + "_Length_" + Splitp[g].length() + "\n" + Splitp[g] + "\n");
+							writer1.close();
+						}
+					}
+				}
+			}
+			bufferedReader.close();
+		}
+	}
+    private static String createRepeatedStr(String seed,int n) {
+        return String.join("", Collections.nCopies(n, seed));
+    }
+	public static void Fa2fq(String RepeatFile, String WritePath, int m) throws IOException {
+		int IndexNum = 0;
+		String encoding = "utf-8";
+		String readtemp1 = "";
+		String readtemp2 = "";
+		OutputStreamWriter write = new  OutputStreamWriter(new FileOutputStream(WritePath),encoding);
+		BufferedWriter bufferedWriter = new BufferedWriter(write) ;
+		File file1 = new File(RepeatFile);
+		if (file1.isFile() && file1.exists()){
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file1), encoding);
+			BufferedReader bufferedReader = new BufferedReader(read);
+			while ((readtemp1 = bufferedReader.readLine()) != null && (readtemp2 = bufferedReader.readLine()) != null) {
+				if (readtemp1.charAt(0)=='>' && readtemp2.length()>=m) {
+					bufferedWriter.write("@NODE_"+(IndexNum++)+"_Length_"+readtemp2.length()+"\n"+readtemp2+"\n"+"+"+"\n"+createRepeatedStr("?",readtemp2.length())+"\n");
+				}
+			}
+			bufferedReader.close();
+			bufferedWriter.close();
+		}
+	}
+	public static void KmerFileToHash(String KmerFilePath, String[] KmerHashTable, int SizeOfHash) throws IOException {
+		String encoding = "utf-8";
+		try 
+		{
+			String readtemp = "";
+			File file = new File(KmerFilePath);
+			if (file.isFile() && file.exists()) {
+				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+				BufferedReader bufferedReader = new BufferedReader(read);
+				while ((readtemp = bufferedReader.readLine()) != null) {
+					if (readtemp.length()>=5) {
+						int hashCode = RSHash(readtemp) % SizeOfHash;
+						if (KmerHashTable[hashCode]==null) {
+							KmerHashTable[hashCode]=readtemp;
+						} 
+						else 
+						{
+							int i = 1;
+							while (KmerHashTable[(hashCode + i) % SizeOfHash]!= null){
+								i++;
+							}
+							if (KmerHashTable[(hashCode + i) % SizeOfHash]== null){
+								KmerHashTable[(hashCode + i) % SizeOfHash]=readtemp;
+							}
+					    }
+				    }
+				}
+				bufferedReader.close();
+			} else {
+				System.out.println("File is not exist!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error liaoxingyu");
+			e.printStackTrace();
+		}
+	}
+	public static int getHashUnit(String KmerStr, String HashTable[], int SizeOfDSK) {
+		int i = 1;
+		int hashcode = RSHash(KmerStr) % SizeOfDSK;
+		if (HashTable[hashcode]!= null) {
+			if (HashTable[hashcode].equals(KmerStr)) {
+				return hashcode;
+			} 
+			else
+			{
+				while (HashTable[(hashcode + i) % SizeOfDSK]!= null){
+					if (HashTable[(hashcode + i) % SizeOfDSK].equals(KmerStr)) {
+						return (hashcode + i) % SizeOfDSK;
+					} 
+					else 
+					{
+						i++;
+					}
+				}
+			}
+		}
+		return -1;
+	}
 	public static void DelePathFiles(String FilePath, String Name_Str) throws Exception {
 		Process p_pre = null;
 		Runtime r_pre = Runtime.getRuntime();
@@ -373,8 +572,7 @@ public class CommonClass {
 		p_pre = r_pre.exec(cmd_pre);
 		p_pre.waitFor();
 	}
-	public static void multipleAlignmentRatios(String samfile, String output) throws IOException
-	{
+	public static void multipleAlignmentRatios(String samfile, String output) throws IOException {
 		int totalFragments=0;
 		int unmappedSegments=0;
 		int multiAlignSegments=0;
@@ -424,14 +622,25 @@ public class CommonClass {
 					 }
 				}
 			}
+		    if(overlaps.size()>=2){
+				multiAlignSegments++;
+		    }
+			else
+			{
+				singleAlignSegments++;
+			}
+			totalFragments++;
+			readmark.clear();
+			overlaps.clear();
 			bufferedReader.close();
-            System.out.println("Total count:"+totalFragments+"\n"+"Align 0 times:"+unmappedSegments+" (" + df.format((double)unmappedSegments / (double)totalFragments* 100) + ")\n"+ "Align 1 times: " +singleAlignSegments+ " (" + df.format((double)singleAlignSegments / (double)totalFragments*100) + ")\n"+ "Align > 1 times: "+multiAlignSegments+" (" + df.format((double)multiAlignSegments/ (double)totalFragments* 100) + ")");
+			totalFragments+=unmappedSegments;
+            System.out.println("Total count:"+totalFragments+"\n"+"Align 0 times:"+ unmappedSegments+" (" + df.format(100*(double)unmappedSegments / (double)totalFragments)+"% )\n"+ "Align 1 times: " +singleAlignSegments+ " (" + df.format(100*(double)singleAlignSegments / (double)totalFragments)+"% )\n"+ "Align > 1 times: "+multiAlignSegments+" (" + df.format(100*(double)multiAlignSegments/ (double)totalFragments) + "% )");
             FileWriter writer= new FileWriter(output,true);
             writer.write("File name: "+samfile+"\n");
             writer.write("Total count: "+totalFragments+"\n");
-            writer.write("Align 0 times: "+unmappedSegments+" (" + df.format((double)unmappedSegments/(double)totalFragments* 100) + ")\n");
-            writer.write("Align 1 times: " +singleAlignSegments+ " (" + df.format((double)singleAlignSegments/(double)totalFragments* 100) + ")\n");
-            writer.write("Align > 1 times: " +multiAlignSegments+" (" + df.format((double)multiAlignSegments/(double)totalFragments* 100) + ")");
+            writer.write("Align 0 times: "+unmappedSegments+" (" + df.format(100*(double)unmappedSegments/(double)totalFragments)+"%"+ ")\n");
+            writer.write("Align 1 times: " +singleAlignSegments+ " (" + df.format(100*(double)singleAlignSegments/(double)totalFragments)+"%"+")\n");
+            writer.write("Align > 1 times: " +multiAlignSegments+" (" + df.format(100*(double)multiAlignSegments/(double)totalFragments)+"%"+")");
             writer.close();
 		}
 	}
@@ -443,7 +652,7 @@ public class CommonClass {
     	}
     	else if (!L.equals(""))
     	{
-    		int fileLength=CommonClass.getFileLength(LinearFilePath);
+    		double fileLength=CommonClass.getFileLength(LinearFilePath);
     		aveCovage=(double)fileLength/Integer.parseInt(L);
     	}
     	else
@@ -523,7 +732,51 @@ public class CommonClass {
     	 				     }
     			       }
     		    }
-    			bufferedReaderDepth.close();
+		        if(overlaps.size()>=1){
+				       int overlapDepth=0;
+ 				       String [] ReadIdLine=readmark.get(0).split("_");
+ 				       ReadLength=Integer.parseInt(ReadIdLine[3]);
+	 				   int SavePositionArray[]=new int[ReadLength];
+	 				   for(int y=0;y<ReadLength;y++){
+	 						SavePositionArray[y]=0;
+	 				   }
+	 				   for (int p=0;p<overlaps.size();p++){
+	 					    if(overlaps.get(p)!=null){
+ 	 					    	String PosiString=overlaps.get(p).toString();
+ 	 					    	String [] SplitUnit=PosiString.split("\t|\\s+");
+ 	 				            int StartPos1=Integer.parseInt(SplitUnit[0]);
+ 	 				            int EndPos1=Integer.parseInt(SplitUnit[1]);
+ 	 				            int LengthRead2=Integer.parseInt(SplitUnit[2]);
+ 	 				            int StartPos2=Integer.parseInt(SplitUnit[3]);
+ 	 				            int EndPos2=Integer.parseInt(SplitUnit[4]);
+ 	 				            if(E.equals("yes")){
+	 	 				              if(((double)(Math.abs(StartPos2-EndPos2))/LengthRead2>=0.9)){
+		 	 				            for(int w=StartPos1;w<EndPos1;w++){
+    		 	 				            SavePositionArray[w]+=1;
+    		 	 				        }
+	 	 				            }
+ 	 				            }
+ 	 				            else
+ 	 				            {
+	 	 				            if(((double)(Math.abs(StartPos2-EndPos2))/LengthRead2>=0.2)){
+		 	 				            for(int w=StartPos1;w<EndPos1;w++){
+    		 	 				            SavePositionArray[w]+=1;
+    		 	 				        }
+	 	 				            }
+ 	 				            }
+	 					    }
+	 				   }
+	 				   for(int e=0;e<ReadLength;e++){
+	 					    if(SavePositionArray[e]>0){
+	 							overlapDepth+=SavePositionArray[e];
+	 					    }
+	 				   }
+	 				   ReadCount++;
+	 				   AverageCovOfRead+=(double)overlapDepth/ReadLength;
+			      }
+				  readmark.clear();
+				  overlaps.clear();  
+    			  bufferedReaderDepth.close();
     		}
     		aveCovage=AverageCovOfRead/ReadCount;
     	}
@@ -543,12 +796,18 @@ public class CommonClass {
 				}
 			}
 		}
-		FileWriter writer= new FileWriter(mainPath+"/alignment/quast.txt",true);
+		int Segment_index=0;
+		for(int t=0;t<FileArray.length;t++){
+			FileWriter writer1 = new FileWriter(mainPath+ "/alignment/RepeatLib_final.fa", true);
+			writer1.write(">Node_" + (Segment_index++) + "_" + FileArray[t].length()+ "\n" + FileArray[t]+"\n");
+			writer1.close();
+		}
+		FileWriter writer= new FileWriter(mainPath+"/Results/Size_report.info",true);
 		System.out.println("The Maximum segment length:"+FileArray[0].length());
-		writer.write("The Maximum segment length:"+FileArray[FileArray.length-1].length()+"\n");
+		writer.write("The Maximum segment length:"+FileArray[0].length()+"\n");
 		System.out.println("The Minimum segment length:"+FileArray[FileArray.length-1].length());
 		writer.write("The Minimum segment length:"+FileArray[FileArray.length-1].length()+"\n");
-		int FullLength=CommonClass.getFileLength(mainPath+"/alignment/RepeatLib.fa");
+		double FullLength=CommonClass.getFileLength(mainPath+"/alignment/RepeatLib.fa");
 		int TotalLength=0;
 		for(int v=0;v<FileArray.length;v++){
 			TotalLength+=FileArray[v].length();
@@ -588,7 +847,7 @@ public class CommonClass {
 			String[] cmd_mapping2 = { "sh", "-c", mainPath+"/tools/minimap2 -a "+mainPath+"/alignment/ref_Align.mmi "+mainPath+"/alignment/RepeatLib.fa > "+mainPath+"/alignment/FinalAlignments.sam"};				      
 			phr_mapping2=hr_mapping2.exec(cmd_mapping2);
 			phr_mapping2.waitFor();
-			CommonClass.multipleAlignmentRatios(mainPath+"/alignment/FinalAlignments.sam", mainPath+"/FinalRepeatLib/report1.txt");
+			CommonClass.multipleAlignmentRatios(mainPath+"/alignment/FinalAlignments.sam", mainPath+"/Results/Alignment_report.info");
 		}
 		else
 		{
@@ -602,10 +861,10 @@ public class CommonClass {
 			String[] cmd_mapping2 = { "sh", "-c", mainPath+"/tools/minimap2 -a -N5000 -g50000 -w10 -k13 -m10 -r5000 -t"+t+" "+mainPath+"/alignment/ref_evalution.mmi "+mainPath+"/alignment/RepeatLib.fa > "+mainPath+"/alignment/FinalAlignments.sam"};				      
 			phr_mapping2=hr_mapping2.exec(cmd_mapping2);
 			phr_mapping2.waitFor();
-			CommonClass.multipleAlignmentRatios(mainPath+"/alignment/FinalAlignments.sam", mainPath+"/FinalRepeatLib/report1.txt");
+			CommonClass.multipleAlignmentRatios(mainPath+"/alignment/FinalAlignments.sam", mainPath+"/Results/Alignment_report.info");
 		}
     }
-	public static void copy_files(String mainPath, String o) throws IOException, InterruptedException{
+	public static void copy_Resultfiles(String mainPath, String o) throws IOException, InterruptedException{
 		File FinalRepeatFile=new File(mainPath+"/RepeatLib.fa");
 		if(FinalRepeatFile.exists()){
 			File OutPutDirectory =new File(o); 
@@ -619,10 +878,13 @@ public class CommonClass {
 			}
 		}
 	}
-	public static void generation_HighCovRegions(String OverlapFile,String DepthFile,String OutputPath, int m) throws IOException, InterruptedException{	
+	public static void generation_HighCovRegions(String OverlapFile,String DepthFile,String OutputPath, int m, int k) throws IOException, InterruptedException{	
+		if(m<k){
+			m=k;
+		}
 		int LinesOfScaffs=CommonClass.getFileLines(OverlapFile)/2;
 		String SaveChangeLineScaffolds[]=new String[LinesOfScaffs];
-		CommonClass.FileToArray2(OverlapFile, SaveChangeLineScaffolds, ">");
+		CommonClass.FileToArray3(OverlapFile, SaveChangeLineScaffolds, ">");
 		ArrayList<String> readmark = new ArrayList<String>();
 		ArrayList<String> overlaps = new ArrayList<String>();
 		ArrayList<String> HighCoverageRegions = new ArrayList<String>();
@@ -679,51 +941,153 @@ public class CommonClass {
 			   }
 			   bufferedReaderDepth.close();
 		}
-		if(HighCoverageRegions.size()>0){
-			   for (int p=0;p<HighCoverageRegions.size();p++) {
-		              FileWriter writer1= new FileWriter(OutputPath,true);
-		              writer1.write(">Node_"+(depth_Index++)+"_"+HighCoverageRegions.get(p).length()+"\n"+HighCoverageRegions.get(p)+"\n");
-		              writer1.close();
+		//Add. Modify 2021.2.20
+		if(overlaps.size()>=m){
+			   int readID=0;
+	 		   String [] DepthLine=overlaps.get(0).split("\t|\\s+");
+	 		   String [] ReadIDLine=DepthLine[0].split("_");
+	 		   readID=Integer.parseInt(ReadIDLine[1]);
+			   int CharArrayLength=SaveChangeLineScaffolds[readID].length();
+			   char SavePositionArray2[]=new char[CharArrayLength];
+			   for(int y=0;y<CharArrayLength;y++){
+				  SavePositionArray2[y]='N';
 		       }
+			   for (int p=0;p<overlaps.size();p++) {
+			      if(overlaps.get(p)!=null){
+		  	 		  String [] PositionLine=overlaps.get(p).split("\t|\\s+");
+		  	 		  int Position=Integer.parseInt(PositionLine[1]);
+		  	 		  SavePositionArray2[Position-1]=SaveChangeLineScaffolds[readID].charAt(Position-1);
+			      }
+			   }
+			   String ReplaceStr2=new String(SavePositionArray2);
+			   String [] SplitScaffLine=ReplaceStr2.split("N");
+			   for(int e=0;e<SplitScaffLine.length;e++){
+				  if(SplitScaffLine[e].length()>=m){
+					  HighCoverageRegions.add(SplitScaffLine[e]);
+				  }
+			   }
 		}
-        else
-		{
-			   System.out.println("No fragments satisfying this size were detected, please adjust the parameter m.");
+	    readmark.clear();
+	    overlaps.clear();
+		for (int p=0;p<HighCoverageRegions.size();p++) {
+		    FileWriter writer1= new FileWriter(OutputPath,true);
+		    writer1.write(">Node_"+(depth_Index++)+"_"+HighCoverageRegions.get(p).length()+"\n"+HighCoverageRegions.get(p)+"\n");
+		    writer1.close();
 		}
 		readmark=null;
 		overlaps=null;
 		HighCoverageRegions=null;
 		SaveChangeLineScaffolds=null;
 	}
-	public static void merging_relationships(String finalRepeatFile,String OutputPath) throws IOException, InterruptedException{
-		String exchanges="";
+	public static void merging_relationships(String mainPath, String finalRepeatFile,String OutputPath, int k) throws IOException, InterruptedException{
 		int LinesOfFragments=CommonClass.getFileLines(finalRepeatFile)/2;
-		String SaveFragments[]=new String[LinesOfFragments];
-		int num_fragments=CommonClass.FileToArray2(finalRepeatFile, SaveFragments, ">");
-		for(int f=0;f<num_fragments;f++){
-			for(int h=f+1;h<num_fragments;h++){
-			   if(SaveFragments[f].length()<SaveFragments[h].length()){
-				   exchanges=SaveFragments[f];
-				   SaveFragments[f]=SaveFragments[h];
-				   SaveFragments[h]=exchanges;
-			   }	
-			}
+		String SaveFragments[][]=new String[LinesOfFragments][2];
+		for(int f=0;f<LinesOfFragments;f++){
+			SaveFragments[f][0]="%";
+			SaveFragments[f][1]="%";
 		}
-		for(int j=0;j<num_fragments;j++){
-			for(int g=j+1;g<num_fragments;g++){
-				if(SaveFragments[j].contains(SaveFragments[g])||SaveFragments[j].equals(SaveFragments[g])){
-					SaveFragments[g]="#"+SaveFragments[g];
+		ArrayList<Integer> reptitiveSeq = new ArrayList<Integer>();
+		String seq_str1="";
+		String seq_str2="";
+		File SeqFilePath = new File(finalRepeatFile);
+		if (SeqFilePath.isFile() && SeqFilePath.exists()) {
+			 InputStreamReader SeqReader = new InputStreamReader(new FileInputStream(SeqFilePath), "utf-8"); 
+			 BufferedReader bufferedReaderDepth = new BufferedReader(SeqReader);
+			 while ((seq_str1=bufferedReaderDepth.readLine())!=null && (seq_str2=bufferedReaderDepth.readLine())!=null){
+				  if(seq_str1.charAt(0)=='>'){
+					  String [] SplitLine1=seq_str1.split("_");
+					  int ArrayIndex=Integer.parseInt(SplitLine1[1]);
+					  SaveFragments[ArrayIndex][0]=SplitLine1[1];
+					  SaveFragments[ArrayIndex][1]=seq_str2;
+				  }
+			 }
+			 bufferedReaderDepth.close();
+		}		
+		Runtime b_index2 = Runtime.getRuntime();
+		Process br_index2=null;
+	    Runtime hr_mapping2 = Runtime.getRuntime();
+		Process phr_mapping2=null;
+		String[] br_Index2 = { "sh", "-c", mainPath+"/tools/minimap2 -d "+mainPath+"/alignment/Seq_Merge.mmi "+finalRepeatFile};
+		br_index2=b_index2.exec(br_Index2);
+		br_index2.waitFor();
+		String[] cmd_mapping2 = { "sh", "-c", mainPath+"/tools/minimap2 -a "+mainPath+"/alignment/Seq_Merge.mmi "+finalRepeatFile+" > "+mainPath+"/alignment/Seq_Merge.sam"};				      
+		phr_mapping2=hr_mapping2.exec(cmd_mapping2);
+		phr_mapping2.waitFor();
+		String OverlapStr="";
+		File OverlapFilePath = new File(mainPath+"/alignment/Seq_Merge.sam");
+		if (OverlapFilePath.isFile() && OverlapFilePath.exists()) {
+			 InputStreamReader DepthRead = new InputStreamReader(new FileInputStream(OverlapFilePath), "utf-8"); 
+			 BufferedReader bufferedReaderDepth = new BufferedReader(DepthRead);
+			 while ((OverlapStr=bufferedReaderDepth.readLine())!=null){
+				  if(OverlapStr.charAt(0)!='@'){
+	 				 String [] SplitLine1=OverlapStr.split("\t|\\s+");
+	 				 if(!(SplitLine1[0].equals(SplitLine1[2])) && (!(SplitLine1[1].equals("4")))){
+				          String seq_id=SplitLine1[0];
+				          String ref_id=SplitLine1[2];
+				          String cigar_seq=SplitLine1[5];
+				          String seqlen="";
+				          String reflen="";
+				          String [] SplitLine2=seq_id.split("_");
+				          if(seq_id.contains("Add")){
+				        	  seqlen=SplitLine2[2];
+				          }
+				          else
+				          {
+				        	  seqlen=SplitLine2[3];
+				          }
+				          String [] SplitLine3=ref_id.split("_");
+				          if(ref_id.contains("Add")){
+				        	  reflen=SplitLine3[2];
+				          }
+				          else
+				          {
+				        	  reflen=SplitLine3[3];
+				          }
+				          String matchStr=seqlen+"M";
+				          if((Integer.parseInt(reflen)>=Integer.parseInt(seqlen))&&(matchStr.equals(cigar_seq))){
+				        	  if(!reptitiveSeq.contains(Integer.parseInt(SplitLine2[1]))){
+						           reptitiveSeq.add(Integer.parseInt(SplitLine2[1]));
+				    			   FileWriter writer1= new FileWriter(mainPath+"/alignment/Merging.records",true);
+				    			   writer1.write(OverlapStr+"\n");
+				    			   writer1.close();
+				        	  }
+				          }
+	 				  }
+				  }
+			 }
+			 bufferedReaderDepth.close();
+		}
+		for (int h=0;h<reptitiveSeq.size();h++){
+            for(int j=0;j<LinesOfFragments;j++){
+        		if((!SaveFragments[j][0].equals("%"))&&(reptitiveSeq.get(h).toString().equals(SaveFragments[j][0]))){
+            		SaveFragments[j][0]="%";
+            		SaveFragments[j][1]="%";
+        		}
+        	}
+        }
+		String exchanges="";
+		for(int f=0;f<LinesOfFragments;f++){
+			if(!SaveFragments[f].equals("%")){
+				for(int h=f+1;h<LinesOfFragments;h++){
+				   if(!SaveFragments[h].equals("%")){
+					    if(SaveFragments[f][1].length()<SaveFragments[h][1].length()){
+						   exchanges=SaveFragments[f][1];
+						   SaveFragments[f][1]=SaveFragments[h][1];
+						   SaveFragments[h][1]=exchanges;
+					    }	
+				    }
 				}
 			}
 		}
 		int finalFragments=0;
-		for(int k=0;k<num_fragments;k++){
-			if(SaveFragments[k].charAt(0)!='#'){
-		        FileWriter writer1= new FileWriter(OutputPath,true);
-			    writer1.write(">NODE_"+(finalFragments++)+"_"+SaveFragments[k].length()+"\n"+SaveFragments[k]+"\n");
-			    writer1.close();
+		for(int b=0;b<LinesOfFragments;b++){
+			if(!SaveFragments[b][1].equals("%") && SaveFragments[b][1].length()>=k){
+			    FileWriter writer1= new FileWriter(OutputPath,true);
+				writer1.write(">NODE_"+(finalFragments++)+"_"+SaveFragments[b][1].length()+"\n"+SaveFragments[b][1]+"\n");
+				writer1.close();
 			}
 		}
+		reptitiveSeq=null;
 		SaveFragments=null;
 	}
 	public static void mapping_HighCovRegions2Ref(String mainPath, int m, double R, String r, int t) throws IOException, InterruptedException{
@@ -913,6 +1277,38 @@ public class CommonClass {
 				     }  
 				     bufferedReaderDepth.close();
 				 }
+				 //Add. Modify 2021.2.20
+				 if(SinglePosition.size()>=m){
+					 int readID=0;
+		  	 		 String [] DepthLine=SinglePosition.get(0).split("\t|\\s+");
+		  	 		 String [] ReadIDLine=DepthLine[0].split("_");
+		  	 		 readID=Integer.parseInt(ReadIDLine[1]);
+					 int CharArrayLength=SingleAlignmentArray[readID].length();
+					 char SavePositionArray2[]=new char[CharArrayLength];
+					 for(int y=0;y<CharArrayLength;y++){
+						  SavePositionArray2[y]='N';
+			    	 }
+					 for (int p=0;p<SinglePosition.size();p++) {
+					      if(SinglePosition.get(p)!=null){
+				  	 			String [] PositionLine=SinglePosition.get(p).split("\t|\\s+");
+				  	 			int Position=Integer.parseInt(PositionLine[1]);
+				  	 			int Coverage=Integer.parseInt(PositionLine[2]);
+				  	 			if(Coverage>=5){
+				  	 			   SavePositionArray2[Position-1]=SingleAlignmentArray[readID].charAt(Position-1);
+				  	 			}
+					      }
+					 }
+					 String ReplaceStr2=new String(SavePositionArray2);
+				     String [] SplitScaffLine=ReplaceStr2.split("N");
+				     for(int e=0;e<SplitScaffLine.length;e++){
+						  if(SplitScaffLine[e].length()>=m){
+						    	SingleAligns.add(SplitScaffLine[e]);
+						  }
+				     }
+					 SavePositionArray2=null;
+				 }
+				 SingleId.clear();
+				 SinglePosition.clear();
 				 for (int p=0;p<SingleAligns.size();p++) {
 					 if(SingleAligns.get(p).length()>=m){
 						 FileWriter writer1= new FileWriter(mainPath+"/alignment/RepeatLib_orginal.fa",true);
@@ -931,9 +1327,124 @@ public class CommonClass {
 		}
 		SaveReadsArray=null;
 	}
-    public static boolean isDigit2(String strNum) {  
-        Pattern pattern = Pattern.compile("[0-9]{1,}");  
-        Matcher matcher = pattern.matcher((CharSequence) strNum);  
-        return matcher.matches();  
-    }
+	public static void overlap_pretreatment(String orginal_overlap, String interim_overlap) throws IOException, InterruptedException{
+		String OverlapStr="";
+		File OverlapFilePath = new File(orginal_overlap);
+		if (OverlapFilePath.isFile() && OverlapFilePath.exists()) {
+			InputStreamReader OverlapRead = new InputStreamReader(new FileInputStream(OverlapFilePath), "utf-8"); 
+			BufferedReader bufferedReaderDepth = new BufferedReader(OverlapRead);
+			while ((OverlapStr=bufferedReaderDepth.readLine())!=null){
+ 				String [] SplitLine=OverlapStr.split("\t|\\s+");
+ 			    String overlap_Add=OverlapStr+"\n"+SplitLine[5]+"\t"+SplitLine[6]+"\t"+SplitLine[7]+"\t"+SplitLine[8]+"\t"+SplitLine[4]+"\t"+SplitLine[0]+"\t"+SplitLine[1]+"\t"+SplitLine[2]+"\t"+SplitLine[3]+"\t"+SplitLine[9]+"\t"+SplitLine[10]+"\t"+SplitLine[11];
+			    FileWriter writer1 = new FileWriter(interim_overlap, true);
+			    writer1.write(overlap_Add+"\n");
+				writer1.close();
+ 			}
+			bufferedReaderDepth.close();
+		}
+	}
+	public static void File_HeadToArray(String FileSetPath, String[] FileSetArray, String SaveHeadFile[], String FilterChar) {
+		int count_repeat=0;
+		int count_head=0;
+		String readtemp = "";
+		try {
+			String encoding = "utf-8";
+			File file = new File(FileSetPath);
+			if (file.isFile() && file.exists()) {
+				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+				BufferedReader bufferedReader = new BufferedReader(read);
+				while ((readtemp = bufferedReader.readLine()) != null) {
+					if (!readtemp.startsWith(FilterChar) && readtemp.length() > 5) {
+						FileSetArray[count_repeat++] = readtemp;
+					}
+					else
+					{
+						SaveHeadFile[count_head++] = readtemp;
+					}
+				}
+				bufferedReader.close();
+			} else {
+				System.out.println("File is not exist!");
+			}
+		} catch (Exception e) {
+			System.out.println("Error liaoxingyu");
+			e.printStackTrace();
+		}
+	}
+	public static int num_fragment(String ReadSetPath) throws IOException {
+		int line = 0;
+		String readtemp = "";
+		String encoding = "utf-8";
+		File file = new File(ReadSetPath);
+		if (file.isFile() && file.exists()) {
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+			BufferedReader bufferedReader = new BufferedReader(read);
+			while ((readtemp = bufferedReader.readLine()) != null) {
+				if (readtemp.charAt(0) == '>' || readtemp.charAt(0) == '@') {
+					line++;
+				}
+			}
+			bufferedReader.close();
+		}
+		return line;
+	}
+	public static void identification(String homePath, String r, String output, int m) throws IOException, InterruptedException{
+		Fa2fq(output+"/RepeatLib.fa",output+"/RepeatLib.fq", m);
+		Runtime r_mapping = Runtime.getRuntime();
+		Process pr_mapping=null;
+		String[] cmd_mapping = { "sh", "-c", homePath+"/tools/ngmlr-master/bin/ngmlr-0.2.8/ngmlr -t 4 -r "+r+" -q "+output+"/RepeatLib.fq -o "+output+"/RepeatLib.sam"};
+		pr_mapping=r_mapping.exec(cmd_mapping);
+		pr_mapping.waitFor();
+	    Runtime sam2bam  = Runtime.getRuntime();
+		Process pk_sam2bam=null;
+	    String[] cmd_sam2bam = { "sh", "-c", homePath+"/tools/samtools  view  -bS  "+output+"/RepeatLib.sam > "+output+"/RepeatLib.bam"};
+	    pk_sam2bam=sam2bam.exec(cmd_sam2bam);
+	    pk_sam2bam.waitFor();
+		File DeletedKmerSamFile=new File(output+"/RepeatLib.sam");
+		if(DeletedKmerSamFile.exists()){
+			 deleteFile(DeletedKmerSamFile);
+		}
+		Runtime bam2sort = Runtime.getRuntime();
+		Process pk_bam2sort=null;
+	    String[] cmd_bam2sort = { "sh", "-c", homePath+"/tools/samtools  sort  "+output+"/RepeatLib.bam > "+output+"/RepeatLib.sort.bam"};
+	    pk_bam2sort=bam2sort.exec(cmd_bam2sort);
+	    pk_bam2sort.waitFor();
+		File DeletedKmerBamFile=new File(output+"/RepeatLib.bam");
+		if(DeletedKmerBamFile.exists()){
+			 deleteFile(DeletedKmerBamFile);
+		}
+		Runtime sort2index = Runtime.getRuntime();
+		Process pk_sort2index=null;
+	    String[] cmd_sort2index = { "sh", "-c", homePath+"/tools/samtools  index  "+output+"/RepeatLib.sort.bam"};
+	    pk_sort2index=sort2index.exec(cmd_sort2index);
+	    pk_sort2index.waitFor();
+		Runtime sniffles = Runtime.getRuntime();
+		Process pk_sniffles=null;
+	    String[] cmd_sniffles = { "sh", "-c", homePath+"/tools/Sniffles-master/bin/sniffles-core-1.0.11/sniffles -m "+output+"/RepeatLib.sort.bam -v "+output+"/RepeatLib.vcf"};
+	    pk_sniffles=sniffles.exec(cmd_sniffles);
+	    pk_sniffles.waitFor();
+	}
+	public static void generation_reports(String mainPath, String r, String output) throws IOException, InterruptedException{
+		CommonClass.copy_Resultfiles(mainPath+"/alignment",output);
+		Runtime b_index2 = Runtime.getRuntime();
+		Process br_index2=null;
+		Runtime hr_mapping2 = Runtime.getRuntime();
+		Process phr_mapping2=null;
+		Runtime hr_report = Runtime.getRuntime();
+		Process phr_report=null;
+		Runtime hr_classifier= Runtime.getRuntime();
+		Process phr_classifier=null;
+		String[] br_Index2 = { "sh", "-c", mainPath+"/tools/minimap2 -d "+mainPath+"/Results/Ref.mmi "+r};
+		br_index2=b_index2.exec(br_Index2);
+		br_index2.waitFor();
+		String[] cmd_mapping2 = { "sh", "-c", mainPath+"/tools/minimap2 -a "+mainPath+"/Results/Ref.mmi "+mainPath+"/Results/RepeatLib.fa > "+mainPath+"/Results/Results.sam"};				      
+		phr_mapping2=hr_mapping2.exec(cmd_mapping2);
+		phr_mapping2.waitFor();
+		String[] cmd_report = { "sh", "-c", "python "+mainPath+"/src/SamProcess.py -m g -s "+mainPath+"/Results/Results.sam -o "+mainPath+"/Results"};				      
+		phr_report=hr_report.exec(cmd_report);
+		phr_report.waitFor();
+		String[] cmd_classifier = { "sh", "-c", mainPath+"/tools/Classifier/RepeatClassifier -consensi  "+mainPath+"/Results/RepeatLib.fa"};				      
+		phr_classifier=hr_classifier.exec(cmd_classifier);
+		phr_classifier.waitFor();
+	}
 }
