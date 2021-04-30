@@ -19,7 +19,7 @@ Installation and running of LongRepMarker
 ==================================
 
 ### Dependencies
-
+Linux x86 64bit 
 Ubuntu Xenial 16.04 (LTS)
 docker [https://docs.docker.com/engine/install/ubuntu/]
  
