@@ -47,7 +47,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 	
 	[options]
 	
-	         -Xmx300G <This parameter is only used when processing the large datasets (For example: the genome size exceeds 5Gb)>
+	         -Xmx300G <This parameter is only used when processing the large datasets (For example: the genome size exceeds 5Gb, and the sequencing data larger than 10GB)>
 	         -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
 		 -k   <The k-mer size used in detection (Default value: 49)>
 		 -e   <This parameter controls whether the short reads error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
@@ -96,7 +96,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 
 (5) de novo mode based on only SMS long reads
 		
-	    java -Xmx256G LongRepMarker -l [10X_linked_reads.fa] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options] 
+	    java LongRepMarker -l [1ong_reads.fa] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options] 
 	    
 (6) When dealing large datasets in the de novo mode (Take de novo mode based on only NGS short reads as example)
 
