@@ -6,22 +6,9 @@ Please see the latest version of LongRepMarker on docker-hub : https://registry.
 License
 =======
 
-Copyright (C) 2020 Xingyu Liao(liaoxingyu@csu.edu.cn)
+Copyright (C) 2020 Xingyu Liao(liaoxingyu@csu.edu.cn / Xingyu_Liao@126.com)
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 3
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, see <http://www.gnu.org/licenses/>.
-
-Xingyu Liao(liaoxingyu@csu.edu.cn)
+Xingyu Liao(liaoxingyu@csu.edu.cn / Xingyu_Liao@126.com)
 Hunan Provincial Key Lab on Bioinformatics, School of Computer Science and Engineering
 Central South University
 ChangSha
@@ -33,22 +20,23 @@ Installation and operation of LongRepMarker
 
 ### Dependencies
 
-   When running LongRepMarker from GitHub source the following tools are required:
-
-   * [jdk 1.8.0 or above]
-   * [GNU C++ 4.6.3 or above] 
-   * [perl 5.6.0 or above] 
-   * [python 2.7.14]
+Ubuntu Xenial 16.04 (LTS)
+docker [https://docs.docker.com/engine/install/ubuntu/]
  
 ### Install LongRepMarker
 
-     LongRepMarker is written Java and therefore will require a machine with jdk pre-installed.
+1) Install docker
+   sudo apt-get update
+   sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-     Create a main directory (eg:LongRepMarker). Copy all source code to this directory.
-
-     Running of the following command to compile the LongRepMarker: 
-
-     javac LongRepMarker.java 
+2) Pull image from socker-hub
+   docker pull liaoxy2docker/longrepmarker_docker
+   
+3）Browse images
+   docker images
+  
+4）Start a container in interactive mode based on the image longrepmarker_docker, and execute the /bin/bash command in the container.
+  docker run -it longrepmarker_docker /bin/bash
 
 ### Run LongRepMarker.
 	
