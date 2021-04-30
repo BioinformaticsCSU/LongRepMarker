@@ -33,18 +33,24 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 *_docker images_*  
 4)  Start a container in interactive mode based on the image longrepmarker_docker, and execute the /bin/bash command in the container  
 *_docker run -it longrepmarker_docker /bin/bash_*  
+5)  Installation location of LongRepMarker in the image  
+*/home/LongRepMarker*  
+6)  Enter the working directory of LongRepMarker  
+*cd /home/LongRepMarker*
+7)  Compile the source code  
+./Makefile  
 
 ### Run LongRepMarker.
-	
-    Running command:  
-	java -Xmx256G LongRepMarker [options] 
+
+    Running command (/home/LongRepMarker):  
+    java -Xmx80G LongRepMarker [options] 
 	
 	[options]
 	
 	         -Xmx256G <This parameter is only used when processing large datasets (For example: the genome size exceeds 5Gb)>
 	         -r   <The reference file or the assemblies file (This parameter is only used in reference-assisted mode)>
-		 -k   <The k-mer size used during the detection(Default value: 49)>
-		 -E   <This parameter controls whether the error correction is executed(Setting this parameter to 'yes' indicates that error correction will be executed)>
+		 -k   <The k-mer size used in detection(Default value: 49)>
+		 -E   <This parameter controls whether the error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -t   <The number of threads(Default value: 8)>
              -m   <The minmum size of repeats(Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
