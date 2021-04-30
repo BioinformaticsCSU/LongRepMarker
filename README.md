@@ -15,7 +15,7 @@ ChangSha
 CHINA, 410083  
 
 
-Installation and operation of LongRepMarker 
+Installation and running of LongRepMarker 
 ==================================
 
 ### Dependencies
