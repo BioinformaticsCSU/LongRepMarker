@@ -26,14 +26,14 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 ### Install LongRepMarker
 
 1) Install docker
-   <br>udo apt-get update  
-   <br>sudo apt-get install docker-ce docker-ce-cli containerd.io  
+   <br> udo apt-get update  <br>
+   <br> sudo apt-get install docker-ce docker-ce-cli containerd.io  <br> 
 2) Pull image from socker-hub  
-   <br>docker pull liaoxy2docker/longrepmarker_docker  
+   <br> docker pull liaoxy2docker/longrepmarker_docker  <br>
 3）Browse images  
-   <br>docker images  
+   <br> docker images  <br>
 4）Start a container in interactive mode based on the image longrepmarker_docker, and execute the /bin/bash command in the container.  
-   <br>docker run -it longrepmarker_docker /bin/bash
+   <br>docker run -it longrepmarker_docker /bin/bash  <br>
 
 ### Run LongRepMarker.
 	
