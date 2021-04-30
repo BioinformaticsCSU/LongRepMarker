@@ -78,8 +78,9 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 	
 	    java LongRepMarker -r [ /home/reference.fa | /home/assemblies.fa ] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -t [8] -o [/home/finalResults/] [options]  
 	    
-(2) de novo mode based on only NGS short reads
-	java LongRepMarker -q1 [ read1_left.fa ] -q2 [ read1_right.fa ] -q3 [ read2_left.fa ] -q4 [ read2_right.fa ] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options]
+(2) de novo mode based on only NGS short reads  
+
+java LongRepMarker -q1 [ read1_left.fa ] -q2 [ read1_right.fa ] -q3 [ read2_left.fa ] -q4 [ read2_right.fa ] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options]
 	
 	
 	
