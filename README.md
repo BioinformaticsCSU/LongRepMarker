@@ -25,9 +25,9 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
  
 ### Install LongRepMarker
 
-1) Install docker
-   * sudo apt-get update  *
-   <br> sudo apt-get install docker-ce docker-ce-cli containerd.io  <br> 
+1) Install docker  
+   -sudo apt-get update-  
+   -sudo apt-get install docker-ce docker-ce-cli containerd.io-   
 2) Pull image from socker-hub  
    </br> docker pull liaoxy2docker/longrepmarker_docker  </br>
 3）Browse images  
