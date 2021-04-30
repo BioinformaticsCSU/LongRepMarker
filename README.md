@@ -63,17 +63,10 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		 -q8  <The file with right reads for the 4-th paired-end reads>
 		 -q9  <The file with left reads for the 5-th paired-end reads>
 		 -q10 <The file with right reads for the 5-th paired-end reads>
-		 -l   <The file of SMS long reads>
- 		 -M   <This parameter controls whether to evaluate the alignment between detected fragments and the reference genome. (Setting this parameter to 'yes' indicates the evluation will be executed and a report will be generated in the final results), this parameter needs to be used in conjunction with parameter -f >
-		 
-		 
-		 
-
-		 
-		 
-		 
-             -Q   <This parameter controls whether the effective size of detection results is counted(Setting this parameter to 'yes' indicates statistics)>
-		 -f   <The reference file used for results evaluation>
+		 -l   <The file of SMS long reads>  
+		 -M   <This parameter controls whether to evaluate the alignment between detected fragments and the reference genome. (Setting this parameter to 'yes' indicates the evluation will be executed and a report will be generated in the final results), this parameter needs to be used in conjunction with parameter -f >  
+		 -Q   <This parameter controls whether to evalute the effective size of detected fragments. (Setting this parameter to 'yes' indicates the evluation will be executed and a report will be generated in the final results)>
+		 -f   <The reference genome used for detection results evaluation (only used in evaluation)>
 		 -v   <This parameter controls whether the structural variation detection is executed(Setting this parameter to 'yes' indicates that variation detection will be executed, this parameter is only used in de novo mode)>
              -o   <The path used to save the final detection results>
 		 
