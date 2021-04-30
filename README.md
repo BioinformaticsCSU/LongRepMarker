@@ -8,7 +8,7 @@ License
 
 Copyright (C) 2020 Xingyu Liao(liaoxingyu@csu.edu.cn / Xingyu_Liao@126.com)
 
-Xingyu Liao(liaoxingyu@csu.edu.cn / Xingyu_Liao@126.com)
+Xingyu Liao  
 Hunan Provincial Key Lab on Bioinformatics, School of Computer Science and Engineering
 Central South University
 ChangSha
