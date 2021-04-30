@@ -3,7 +3,7 @@ Latest Version
 Please see the latest version of LongRepMarker on docker-hub : https://registry.hub.docker.com/repository/docker/liaoxy2docker/longrepmarker_docker
 
 
-License
+Author
 =======
 
 Copyright (C) 2020 Xingyu Liao (liaoxingyu@csu.edu.cn/Xingyu_Liao@126.com)
@@ -102,9 +102,13 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		
 ### Output.
     
-(1)The final detection results will be stored in the path specified by '-o'.
-	
-    If the value of '-o' is set to '/home/output', the final detection results will be stored in '/home/output'.
-	Otherwise, the detection results will be stored in the default path (.../LongRepMarker-master/FinalRepeatLib/).
+(1) The final detection results will be stored in the path specified by '-o'. If the parameter '-o' is not configured, the final detection results will be stored in the path of '/home/LongRepMarker/Results'.
 
+(2) The following detailed reports will be generated in the final detection results.
 
+	   /home/LongRepMarker/Results/Alignment_report.info
+	   /home/LongRepMarker/Results/Annotation_report.info
+	   /home/LongRepMarker/Results/Size_report.info
+	   /home/LongRepMarker/Results/RepeatLib.vcf
+	   /home/LongRepMarker/Results/RepeatLib.vcf
+	   /home/LongRepMarker/Results/RepeatLib.classified
