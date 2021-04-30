@@ -52,6 +52,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		 -k   <The k-mer size used in detection(Default value: 49)>
 		 -e   <This parameter controls whether the short reads error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
 		 -E   <This parameter controls whether the long reads error correction is executed (Setting this parameter to 'yes' indicates that error correction will be executed)>
+		 -c   <The coverage threshold which is used to filter the low coverage overlaps (Default value:1.5)>
 		 -t   <The number of threads (Default value: 8)>
              -m   <The minmum length of detected fragment (Default value: 5kb)>
 		 -q1  <The file with left reads for the 1-th paired-end reads>
