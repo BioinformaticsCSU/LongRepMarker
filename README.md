@@ -106,9 +106,9 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 
 (2) The following detailed reports will be generated in the final detection results.
 
-	   /home/LongRepMarker/Results/Alignment_report.info
-	   /home/LongRepMarker/Results/Annotation_report.info
-	   /home/LongRepMarker/Results/Size_report.info
-	   /home/LongRepMarker/Results/RepeatLib.vcf
-	   /home/LongRepMarker/Results/RepeatLib.vcf
-	   /home/LongRepMarker/Results/RepeatLib.classified
+	   /home/LongRepMarker/Results/Alignment_report.info     // The report of alignment between detected fragments and the reference genome.
+	   /home/LongRepMarker/Results/Annotation_report.info    // The report of distribution of detected fragments in the genome.
+	   /home/LongRepMarker/Results/Size_report.info          // The report of distribution of length of the detected fragments.
+	   /home/LongRepMarker/Results/RepeatLib.vcf             // The report of the structural variations that appear in the detected repetitive fragments.
+	   /home/LongRepMarker/Results/RepeatLib.fa              // The final repeat library.
+	   /home/LongRepMarker/Results/RepeatLib.fa.classified   // The final repeat library with annotation.
