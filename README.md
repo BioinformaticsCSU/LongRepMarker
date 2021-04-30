@@ -96,7 +96,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 		
 	    java -Xmx256G LongRepMarker -l [10X_linked_reads.fa] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options] 
 	    
-(6) When dealing large datasets in de novo mode (Take de novo mode based on only NGS short reads as example)
+(6) When dealing large datasets in the de novo mode (Take de novo mode based on only NGS short reads as example)
 
 	    java -Xmx300G LongRepMarker -q1 [ read1_left.fq ] -q2 [ read1_right.fq ] -q3 [ read2_left.fq ] -q4 [ read2_right.fq ] -k [49] -m [5000] -f [/home/reference.fa] -Q [yes/no] -M [yes/no] -v [yes/no] -t [8] -o [/home/finalResults/] [options]
 		
