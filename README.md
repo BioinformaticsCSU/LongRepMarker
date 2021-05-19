@@ -28,7 +28,7 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 *_sudo apt-get update_*  
 *_sudo apt-get install docker-ce docker-ce-cli containerd.io_*  
 2)  Pull image from docker-hub  
-*_docker pull liaoxy2docker/longrepmarker_docker:latest_*  
+*_sudo docker pull liaoxy2docker/longrepmarker_docker:latest_*  
 3)  Browse images  
 *_docker images_*  
 4)  Start a container in interactive mode based on the image longrepmarker_docker, and execute the /bin/bash command in the container  
