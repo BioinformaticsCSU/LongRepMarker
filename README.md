@@ -30,9 +30,9 @@ docker [https://docs.docker.com/engine/install/ubuntu/]
 2)  Pull image from docker-hub  
 *_sudo docker pull liaoxy2docker/longrepmarker_docker:latest_*  
 3)  Browse images  
-*_docker images_*  
+*_sudo docker images_*  
 4)  Start a container in interactive mode based on the image longrepmarker_docker, and execute the /bin/bash command in the container  
-*_docker run -it longrepmarker_docker /bin/bash_*  
+*_sudo docker run -it longrepmarker_docker /bin/bash_*  
 5)  Installation location of LongRepMarker in the image  
 */home/LongRepMarker*  
 6)  Enter the working directory of LongRepMarker  
