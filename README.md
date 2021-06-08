@@ -10,7 +10,7 @@ In this study, we present a novel identification framework, LongRepMarker, based
 (5) by taking the corresponding identification strategies, structural variations that occur between repeats can be identified.
 Comprehensive experimental results show that LongRepMarker can achieve more satisfactory results than the existing de novo detection methods 
 
-Main improvements of LongRepMarker
+Improvements
 ==============
 
 Compared with the existing de novo detection methods, the major improvements of LongRepMarker are as follows:
