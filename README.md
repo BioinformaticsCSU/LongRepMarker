@@ -1,3 +1,38 @@
+Description
+==============
+
+Numerous studies have shown that repetitive regions in genomes play indispensable roles in the evolution, inheritance and variation of living organisms. However, most existing methods cannot achieve satisfactory performance on identifying repeats in terms of both accuracy and size, since NGS reads are too short to identify long repeats whereas SMS (Single Molecule Sequencing) long reads are with high error rates.
+In this study, we present a novel identification framework, LongRepMarker, based on the global de novo assembly and k-mer based multiple sequence alignment for precisely marking long repeats in genomes. The major characteristics of LongRepMarker are as follows:
+(1) by introducing barcode linked reads and SMS long reads to assist the assembly of all short paired-end reads, it can identify the repeats to a greater extent;
+(2) by finding the overlap sequences between assemblies or chomosomes, it locates the repeats faster and more accurately;
+(3) by using the multi-alignment unique k-mers rather than the high frequency k-mers to identify repeats in overlap sequences, it can obtain the repeats more comprehensively and stably;
+(4) by applying the parallel alignment model based on the multi-alignment unique k-mers, the efficiency of data processing can be greatly optimized; and
+(5) by taking the corresponding identification strategies, structural variations that occur between repeats can be identified.
+Comprehensive experimental results show that LongRepMarker can achieve more satisfactory results than the existing de novo detection methods 
+
+Main improvements of LongRepMarker
+==============
+
+Compared with the existing de novo detection methods, the major improvements of LongRepMarker are as follows:
+
+(i) The repeats obtained by LongRepMarker are more comprehensive and accurate.
+
+a) By assembling all paired-end reads and barcode linked reads or SMS long reads instead of assembling the high frequency k-mers, the algorithm can identify the repeats in the genomes to a greater extent.
+
+b) The repetitive sequences are a special kind of overlap sequences, and the overlap sequences occupy only a small partion of the overall sequences. By finding the overlap sequences between assemblies or chomosomes, the algorithm locates the repetitive regions faster and more accurately.
+
+c) Due to the sequencing bias, the high frequency threshold is often difficult to obtain accurately, which has a great impact on the range of the high frequency k-mers. By using the multi-alignment unique k-mers to identify repeats in overlap sequences, the algorithm can obtain the repeats in the genomes more comprehensively and stably.
+
+
+(ii) The parallel alignment model based on the multi-alignment unique k-mers can greatly optimize the efficiency of data processing in LongRepMarker. LongRepMarker has superior computing efficiency when dealing with large genomes such as human and mouse. For example, it takes only 264.05 minutes to obtain the whole repeat library of the human genome (hg38) in the reference-assisted mode and 2.86 hours to obtain the whole repeat library of the mouse genome in the de novo mode.
+
+(iii) The structural variations that occur between repetitive regions can be identified by LongRepMarker. 
+The study and analysis of genomic structural variations that occur within the repetitive regions can provide a new perspective for understanding life processes and analyzing life mechanisms. In order to identify structural variations in the repetitive regions, the proposed algorithm also designs corresponding identification strategies.
+
+(iv) The new detection mode based on only SMS long reads has been integrated into LongRepMarker.
+As the development of the third generation sequencing, the SMS long reads have been widely applied in various fields of bioinformatics. A new detection mode based on only SMS long reads has been developed in the LongRepMarker framework. Compared with the existing detection methods based on SMS long reads, this mode has the advantages of low memory consumption, high speed and high detection accuracy.
+
+
 Latest Version
 ==============
 Please see the latest version of LongRepMarker on docker-hub : https://registry.hub.docker.com/repository/docker/liaoxy2docker/longrepmarker_docker
